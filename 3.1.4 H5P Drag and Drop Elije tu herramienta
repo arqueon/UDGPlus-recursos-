@@ -1,0 +1,227 @@
+{
+  "taskDescription": "Arrastra el logo de la herramienta de IA correcta para resolver cada uno de los desafíos comunes en la búsqueda de empleo.",
+  "showSolutions": true,
+  "tryAgain": true,
+  "backgroundOpacity": 100,
+  "dropZoneNextBackground": "1",
+  "elements": [
+    {
+      "x": 65,
+      "y": 10,
+      "height": 10,
+      "width": 10,
+      "type": {
+        "library": "H5P.Image 1.1",
+        "params": {
+          "file": {
+            "path": "images/languagetool.png",
+            "mime": "image/png",
+            "copyright": {
+              "license": "U"
+            },
+            "width": 256,
+            "height": 256
+          },
+          "alt": "Logo de Languagetool"
+        },
+        "subContentId": "e2b1b2c3-1234"
+      },
+      "dropZones": [
+        "0"
+      ],
+      "multiple": false
+    },
+    {
+      "x": 65,
+      "y": 25,
+      "height": 10,
+      "width": 10,
+      "type": {
+        "library": "H5P.Image 1.1",
+        "params": {
+          "file": {
+            "path": "images/otter.png",
+            "mime": "image/png",
+            "copyright": {
+              "license": "U"
+            },
+            "width": 256,
+            "height": 256
+          },
+          "alt": "Logo de Otter.ai"
+        },
+        "subContentId": "f3c4d5e6-5678"
+      },
+      "dropZones": [
+        "1"
+      ],
+      "multiple": false
+    },
+    {
+      "x": 65,
+      "y": 40,
+      "height": 10,
+      "width": 10,
+      "type": {
+        "library": "H5P.Image 1.1",
+        "params": {
+          "file": {
+            "path": "images/canva.png",
+            "mime": "image/png",
+            "copyright": {
+              "license": "U"
+            },
+            "width": 256,
+            "height": 256
+          },
+          "alt": "Logo de Canva"
+        },
+        "subContentId": "g4d5e6f7-9012"
+      },
+      "dropZones": [
+        "2"
+      ],
+      "multiple": false
+    },
+    {
+      "x": 65,
+      "y": 55,
+      "height": 10,
+      "width": 10,
+      "type": {
+        "library": "H5P.Image 1.1",
+        "params": {
+          "file": {
+            "path": "images/notion.png",
+            "mime": "image/png",
+            "copyright": {
+              "license": "U"
+            },
+            "width": 256,
+            "height": 256
+          },
+          "alt": "Logo de Notion AI"
+        },
+        "subContentId": "h5e6f7g8-3456"
+      },
+      "dropZones": [
+        "3"
+      ],
+      "multiple": false
+    },
+    {
+      "x": 65,
+      "y": 70,
+      "height": 10,
+      "width": 10,
+      "type": {
+        "library": "H5P.Image 1.1",
+        "params": {
+          "file": {
+            "path": "images/gemini.png",
+            "mime": "image/png",
+            "copyright": {
+              "license": "U"
+            },
+            "width": 256,
+            "height": 256
+          },
+          "alt": "Logo de Gemini"
+        },
+        "subContentId": "i6f7g8h9-7890"
+      },
+      "dropZones": [
+        "4"
+      ],
+      "multiple": false
+    }
+  ],
+  "dropZones": [
+    {
+      "x": 5,
+      "y": 5,
+      "height": 15,
+      "width": 50,
+      "label": "Mi currículum tiene algunos errores gramaticales y quiero que suene más profesional.",
+      "showLabel": true,
+      "backgroundOpacity": 100,
+      "correctElements": [
+        "0"
+      ],
+      "tipsAndFeedback": {
+        "tip": "Piensa en cuál de estas herramientas es un asistente de escritura avanzado.",
+        "correctText": "¡Correcto! Languagetool es perfecto para pulir tu escritura, corregir gramática y asegurar un tono profesional en tu CV y cartas de presentación.",
+        "incorrectText": "Esa no es la mejor opción. Inténtalo de nuevo."
+      }
+    },
+    {
+      "x": 5,
+      "y": 22.5,
+      "height": 15,
+      "width": 50,
+      "label": "Acabo de tener una charla informativa de una hora por Zoom y necesito un resumen de los puntos más importantes.",
+      "showLabel": true,
+      "backgroundOpacity": 100,
+      "correctElements": [
+        "1"
+      ],
+      "tipsAndFeedback": {
+        "tip": "¿Cuál de estas opciones puede 'escuchar' y transcribir una conversación?",
+        "correctText": "¡Exacto! Otter.ai puede transcribir reuniones y generar resúmenes automáticos, ahorrándote horas de trabajo.",
+        "incorrectText": "Esa no es la mejor opción. Inténtalo de nuevo."
+      }
+    },
+    {
+      "x": 5,
+      "y": 40,
+      "height": 15,
+      "width": 50,
+      "label": "Necesito diseñar una presentación visualmente atractiva para mostrar mi proyecto final de carrera.",
+      "showLabel": true,
+      "backgroundOpacity": 100,
+      "correctElements": [
+        "2"
+      ],
+      "tipsAndFeedback": {
+        "tip": "¿Qué herramienta es la más famosa para el diseño gráfico y visual?",
+        "correctText": "¡Muy bien! Canva utiliza la IA para ayudarte a crear diseños visuales impactantes, incluso si no eres un diseñador profesional.",
+        "incorrectText": "Esa no es la mejor opción. Inténtalo de nuevo."
+      }
+    },
+    {
+      "x": 5,
+      "y": 57.5,
+      "height": 15,
+      "width": 50,
+      "label": "Estoy abrumado con todas mis solicitudes de empleo y necesito un sistema para organizarlas.",
+      "showLabel": true,
+      "backgroundOpacity": 100,
+      "correctElements": [
+        "3"
+      ],
+      "tipsAndFeedback": {
+        "tip": "Busca la herramienta diseñada para organizar información, notas y proyectos.",
+        "correctText": "¡Perfecto! Notion AI es ideal para crear bases de datos y sistemas de organización personalizados, como un panel de control para tu búsqueda de empleo.",
+        "incorrectText": "Esa no es la mejor opción. Inténtalo de nuevo."
+      }
+    },
+    {
+      "x": 5,
+      "y": 75,
+      "height": 15,
+      "width": 50,
+      "label": "Quiero practicar mis respuestas para una entrevista y luego analizarlas.",
+      "showLabel": true,
+      "backgroundOpacity": 100,
+      "correctElements": [
+        "4"
+      ],
+      "tipsAndFeedback": {
+        "tip": "¿Qué herramienta es un modelo de lenguaje conversacional que puede simular un diálogo?",
+        "correctText": "¡Excelente! Puedes usar Gemini para simular una entrevista. Luego, puedes pegar tus respuestas para que las analice y te dé sugerencias de mejora.",
+        "incorrectText": "Esa no es la mejor opción. Inténtalo de nuevo."
+      }
+    }
+  ],
+  "overallFeedback":
+}
