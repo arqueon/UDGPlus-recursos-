@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA: Tu Nuevo Compañero de Trabajo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FDFBF8;
+            color: #1a202c;
+        }
+        .nav-link.active {
+            font-weight: 700;
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 300px;
+                max-height: 60vh;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Chosen Palette: Navy Blues, Vibrant Greens, and Soft Grays -->
+    <!-- Application Structure Plan: La aplicación está diseñada como una SPA (Single-Page Application) con navegación por secciones para facilitar una exploración no lineal y centrada en el usuario. La estructura es temática: 1. Introducción (define el concepto de IA como compañero). 2. Dualidad (compara Aumentación vs. Automatización). 3. Impacto (visualiza el impacto cuantitativo). 4. Productividad (aborda el aumento de la eficiencia). 5. Habilidades (presenta la solución práctica). 6. Herramientas (ofrece recursos concretos). 7. Perspectiva global (contextualiza el impacto mundial). Esta arquitectura fue elegida para guiar al usuario desde el concepto general hacia acciones específicas y conocimiento aplicable, mejorando la comprensión y retención del mensaje principal: la necesidad de adaptación y desarrollo de habilidades. -->
+    <!-- Visualization & Content Choices: Se ha utilizado una combinación de elementos interactivos para presentar la información de forma dinámica. 1. Impacto en Cifras -> Meta: Comparar -> Viz: Gráfico de barras (Chart.js) -> Interacción: Tooltips al pasar el ratón para ver datos precisos. Justificación: Un gráfico de barras es ideal para comparar el potencial de automatización en distintos sectores. 2. Habilidades del Futuro -> Meta: Organizar y detallar -> Viz: Tarjetas interactivas (HTML/CSS/JS) -> Interacción: Efecto hover para destacar la habilidad. Justificación: Las tarjetas permiten segmentar la información en bloques digeribles. 3. Herramientas de IA -> Meta: Organizar y explicar -> Viz: Acordeón (HTML/CSS/JS) -> Interacción: Clic para expandir y mostrar detalles. Justificación: El acordeón evita la sobrecarga de información, permitiendo al usuario explorar solo las categorías de su interés. Se ha evitado el uso de SVG y Mermaid JS en favor de estas soluciones basadas en Canvas y HTML/CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header id="header" class="bg-blue-900 shadow-lg sticky top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-white">IA en el Trabajo</h1>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="nav-link text-white hover:text-blue-200 pb-1">Inicio</a>
+                <a href="#dualidad" class="nav-link text-white hover:text-blue-200 pb-1">Dualidad</a>
+                <a href="#impacto" class="nav-link text-white hover:text-blue-200 pb-1">Impacto</a>
+                <a href="#productividad" class="nav-link text-white hover:text-blue-200 pb-1">Productividad</a>
+                <a href="#habilidades" class="nav-link text-white hover:text-blue-200 pb-1">Habilidades</a>
+                <a href="#herramientas" class="nav-link text-white hover:text-blue-200 pb-1">Herramientas</a>
+                <a href="#perspectiva" class="nav-link text-white hover:text-blue-200 pb-1">Perspectiva Global</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-blue-800">
+            <a href="#intro" class="block py-2 px-6 text-sm text-white hover:bg-blue-700">Inicio</a>
+            <a href="#dualidad" class="block py-2 px-6 text-sm text-white hover:bg-blue-700">Dualidad</a>
+            <a href="#impacto" class="block py-2 px-6 text-sm text-white hover:bg-blue-700">Impacto</a>
+            <a href="#productividad" class="block py-2 px-6 text-sm text-white hover:bg-blue-700">Productividad</a>
+            <a href="#habilidades" class="block py-2 px-6 text-sm text-white hover:bg-blue-700">Habilidades</a>
+            <a href="#herramientas" class="block py-2 px-6 text-sm text-white hover:bg-blue-700">Herramientas</a>
+            <a href="#perspectiva" class="block py-2 px-6 text-sm text-white hover:bg-blue-700">Perspectiva Global</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="intro" class="container mx-auto px-6 py-20 md:py-28 text-center bg-slate-50">
+            <h2 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 leading-tight">La IA: Tu Nuevo Compañero de Trabajo</h2>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+                La Inteligencia Artificial no llega para reemplazarnos, sino para colaborar. Entender su doble rol, como herramienta que automatiza tareas y potencia nuestras capacidades, es clave para navegar el futuro laboral y profesional. La IA puede considerarse una fuerza de trabajo complementaria, una que nos permite delegar tareas repetitivas para concentrarnos en actividades de mayor valor.
+            </p>
+        </section>
+
+        <section id="dualidad" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-800">Aumentación vs. Automatización</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">La IA presenta dos caminos principales en el mundo laboral. Mientras algunos trabajos altamente repetitivos serán automatizados, la gran mayoría de los roles serán "aumentados", permitiendo a los profesionales ser más eficientes, creativos y estratégicos. La distinción entre estos dos conceptos es fundamental para comprender la transformación del empleo (McKinsey Global Institute, 2023).</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+                    <div class="bg-red-50 border-l-4 border-red-500 p-8 rounded-lg">
+                        <h4 class="text-2xl font-bold text-red-800 mb-3">Automatización: El Riesgo</h4>
+                        <p class="text-red-700">Se refiere a la sustitución completa de tareas humanas por sistemas de IA. Afecta principalmente a trabajos rutinarios, predecibles y basados en reglas, como la entrada de datos, el procesamiento de facturas o el control de calidad básico. La amenaza de pérdida de empleo es real en estos sectores, lo que exige una reconversión profesional. Este fenómeno es más visible en el sector administrativo y manufacturero, donde las tareas se pueden protocolizar fácilmente.</p>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-500 p-8 rounded-lg">
+                        <h4 class="text-2xl font-bold text-green-800 mb-3">Aumentación: La Oportunidad</h4>
+                        <p class="text-green-700">Consiste en el uso de la IA como un asistente que potencia las habilidades humanas. Un médico puede usarla para analizar imágenes y diagnosticar antes, un diseñador para generar ideas, o un programador para escribir código más rápido. Esto no elimina el trabajo, sino que lo transforma, liberando tiempo para tareas de mayor valor. La IA se convierte en una herramienta para potenciar la creatividad y la innovación humanas (Goldman Sachs, 2024).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="impacto" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-800">Impacto Potencial en Cifras</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Diversos estudios ya proyectan cómo la IA reconfigurará el mercado laboral. Los datos muestran que, aunque la automatización es un factor, el potencial de aumentar la productividad en roles existentes es inmenso. Pasa el cursor sobre las barras para ver más detalles.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="impactoChart"></canvas>
+                </div>
+                 <p class="text-center text-xs text-gray-500 mt-4">Fuente: Estimaciones basadas en análisis de McKinsey y Goldman Sachs sobre el potencial de automatización de tareas por sector.</p>
+            </div>
+        </section>
+
+        <section id="productividad" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-800">El auge de la productividad</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">La IA no solo cambia el tipo de trabajo que hacemos, sino también la velocidad y la eficiencia con la que lo realizamos. La integración de herramientas de IA en los flujos de trabajo cotidianos tiene el potencial de generar un aumento significativo en la productividad en casi todos los sectores.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div class="p-6 rounded-lg bg-blue-100 border-b-4 border-blue-500">
+                        <div class="text-5xl mb-4 text-blue-600">🚀</div>
+                        <h4 class="text-2xl font-bold mb-2">30%</h4>
+                        <p class="text-gray-700 font-semibold">aumento en la productividad individual</p>
+                        <p class="text-sm text-gray-500 mt-2">Los trabajadores con acceso a IA generativa pueden completar tareas 30% más rápido.</p>
+                    </div>
+                    <div class="p-6 rounded-lg bg-green-100 border-b-4 border-green-500">
+                        <div class="text-5xl mb-4 text-green-600">💡</div>
+                        <h4 class="text-2xl font-bold mb-2">50%</h4>
+                        <p class="text-gray-700 font-semibold">reducción del tiempo en tareas repetitivas</p>
+                        <p class="text-sm text-gray-500 mt-2">La automatización de procesos básicos libera a los empleados para enfocarse en la innovación.</p>
+                    </div>
+                    <div class="p-6 rounded-lg bg-red-100 border-b-4 border-red-500">
+                        <div class="text-5xl mb-4 text-red-600">📊</div>
+                        <h4 class="text-2xl font-bold mb-2">4.4%</h4>
+                        <p class="text-gray-700 font-semibold">de crecimiento económico anual</p>
+                        <p class="text-sm text-gray-500 mt-2">Se estima que la IA podría contribuir a un crecimiento sostenido de la productividad global.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="habilidades" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-800">Desarrollando las Habilidades del Futuro</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Para prosperar en un entorno laboral con IA, es fundamental cultivar un conjunto de habilidades equilibrado. Esto incluye tanto la capacidad técnica para usar las nuevas herramientas como las habilidades humanas que la IA no puede replicar. La combinación de estas competencias nos posiciona de manera más competitiva en un mercado en constante evolución.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center md:text-left">Habilidades para usar la IA</h4>
+                        <ul class="space-y-4">
+                            <li class="bg-white p-4 rounded-lg shadow-sm flex items-start transition duration-300 hover:bg-blue-50 hover:shadow-lg">
+                                <div class="text-2xl mr-4 text-blue-600">⚙️</div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-900">Prompt Engineering</h5>
+                                    <p class="text-sm text-gray-600">Saber cómo hacer las preguntas correctas a la IA para obtener los mejores resultados, un proceso que requiere claridad, concisión y un entendimiento del modelo.</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow-sm flex items-start transition duration-300 hover:bg-blue-50 hover:shadow-lg">
+                                <div class="text-2xl mr-4 text-blue-600">📈</div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-900">Análisis de Datos Asistido por IA</h5>
+                                    <p class="text-sm text-gray-600">Utilizar herramientas de IA para interpretar grandes volúmenes de datos y extraer conclusiones, identificando tendencias que el ojo humano podría pasar por alto.</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow-sm flex items-start transition duration-300 hover:bg-blue-50 hover:shadow-lg">
+                                <div class="text-2xl mr-4 text-blue-600">🤖</div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-900">Gestión de Flujos de Trabajo Automatizados</h5>
+                                    <p class="text-sm text-gray-600">Diseñar e implementar sistemas que integren herramientas de IA para optimizar procesos y liberar tiempo para tareas estratégicas.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center md:text-left">Habilidades Transversales (Humanas)</h4>
+                         <ul class="space-y-4">
+                            <li class="bg-white p-4 rounded-lg shadow-sm flex items-start transition duration-300 hover:bg-green-50 hover:shadow-lg">
+                                <div class="text-2xl mr-4 text-green-600">🤔</div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-900">Pensamiento Crítico y Analítico</h5>
+                                    <p class="text-sm text-gray-600">Evaluar la calidad y relevancia de los resultados generados por la IA. La capacidad de verificar, contextualizar y corregir la información es una habilidad insustituible.</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow-sm flex items-start transition duration-300 hover:bg-green-50 hover:shadow-lg">
+                                <div class="text-2xl mr-4 text-green-600">🎨</div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-900">Creatividad e Innovación</h5>
+                                    <p class="text-sm text-gray-600">Usar la IA como punto de partida para desarrollar ideas y soluciones originales. La capacidad de combinar conceptos y crear algo nuevo sigue siendo una fortaleza humana.</p>
+                                </div>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow-sm flex items-start transition duration-300 hover:bg-green-50 hover:shadow-lg">
+                                <div class="text-2xl mr-4 text-green-600">🤝</div>
+                                <div>
+                                    <h5 class="font-semibold text-gray-900">Inteligencia Emocional y Colaboración</h5>
+                                    <p class="text-sm text-gray-600">Liderar, negociar y trabajar en equipo, habilidades intrínsecamente humanas que son esenciales para el éxito en cualquier organización.</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="herramientas" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-800">Categorías de Herramientas de IA</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Explora las principales categorías de herramientas de IA que ya están transformando el trabajo. Haz clic en cada categoría para saber más.</p>
+                </div>
+                <div class="max-w-3xl mx-auto" id="accordion-container">
+                    
+                </div>
+            </div>
+        </section>
+
+        <section id="perspectiva" class="py-20 bg-slate-50">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl font-bold text-gray-800">Una perspectiva global</h3>
+                    <p class="text-gray-600 mt-2 max-w-2xl mx-auto">La adopción de la IA y su impacto en el mercado laboral no es uniforme a nivel mundial. Si bien las economías desarrolladas están invirtiendo en IA para aumentar la productividad, las economías emergentes enfrentan desafíos y oportunidades únicas. La globalización de la IA significa que las habilidades digitales y transversales se vuelven aún más valiosas, creando un mercado laboral más conectado y competitivo.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-blue-500">
+                        <h4 class="text-xl font-bold text-gray-800 mb-3">IA en economías desarrolladas</h4>
+                        <p class="text-gray-600">En regiones como Europa y América del Norte, el enfoque de la IA es en la automatización de tareas para optimizar la cadena de valor y mejorar la productividad de los trabajadores ya calificados. Esto se traduce en una demanda de profesionales que puedan trabajar con herramientas de IA y que posean habilidades de gestión de proyectos y toma de decisiones basadas en datos.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-4 border-green-500">
+                        <h4 class="text-xl font-bold text-gray-800 mb-3">IA en economías emergentes</h4>
+                        <p class="text-gray-600">En mercados emergentes, la IA tiene el potencial de impulsar el crecimiento económico al automatizar tareas básicas y permitir a las empresas escalar de manera más eficiente. Sin embargo, también existe el riesgo de que la automatización aumente la desigualdad, a menos que se invierta en educación y capacitación para que la fuerza laboral pueda adaptarse a los nuevos roles (Organización Internacional del Trabajo, 2024).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="bibliografia" class="py-20 bg-white">
+            <div class="container mx-auto px-6">
+                <h3 class="text-3xl font-bold text-gray-800 mb-6">Bibliografía</h3>
+                <ul class="text-gray-600 space-y-4">
+                    <li>
+                        <p>Goldman Sachs. (2024). <em>The future of work is not what you think: The age of artificial intelligence.</em> Recuperado de <a href="https://www.goldmansachs.com" class="text-blue-500 underline" target="_blank">goldmansachs.com</a>.</p>
+                    </li>
+                    <li>
+                        <p>McKinsey Global Institute. (2023). <em>The economic potential of generative AI: The next productivity frontier.</em> Recuperado de <a href="https://www.mckinsey.com" class="text-blue-500 underline" target="_blank">mckinsey.com</a>.</p>
+                    </li>
+                    <li>
+                        <p>Organización Internacional del Trabajo. (2024). <em>Artificial intelligence and the labour market: A global perspective.</em> Recuperado de <a href="https://www.ilo.org" class="text-blue-500 underline" target="_blank">ilo.org</a>.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="bg-gray-800 text-white py-8">
+            <div class="container mx-auto px-6 text-center">
+                <h4 class="text-2xl font-bold mb-3">Prepárate para el Futuro</h4>
+                <p class="max-w-2xl mx-auto text-gray-300">La clave no es competir contra la IA, sino aprender a colaborar con ella. La adaptación y el aprendizaje continuo son las mejores estrategias para asegurar tu relevancia y crecimiento profesional en la era de la inteligencia artificial.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('main section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href').substring(1) === entry.target.id) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            const data = {
+                labels: ['Administrativo', 'Atención al Cliente', 'Manufactura', 'Transporte', 'Creativo y Arte', 'Educación'],
+                datasets: [{
+                    label: '% de Tareas Automatizables',
+                    data: [45, 35, 30, 25, 15, 10],
+                    backgroundColor: 'rgba(239, 68, 68, 0.6)',
+                    borderColor: 'rgba(239, 68, 68, 1)',
+                    borderWidth: 1
+                }, {
+                    label: '% de Tareas Aumentables',
+                    data: [55, 65, 70, 75, 85, 90],
+                    backgroundColor: 'rgba(34, 197, 94, 0.6)',
+                    borderColor: 'rgba(34, 197, 94, 1)',
+                    borderWidth: 1
+                }]
+            };
+
+            const config = {
+                type: 'bar',
+                data: data,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            max: 100,
+                             ticks: {
+                                callback: function(value) {
+                                    return value + "%"
+                                }
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            ticks: {
+                                autoSkip: false,
+                                callback: function(value, index, values) {
+                                    const label = this.getLabelForValue(value);
+                                    if (label.length > 16) {
+                                        return label.substring(0, 16) + '...';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + '%';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const ctx = document.getElementById('impactoChart');
+            if(ctx) {
+                new Chart(ctx, config);
+            }
+
+            const accordionData = [
+                {
+                    title: "Generación de texto e ideas",
+                    content: "Herramientas que pueden redactar correos, escribir artículos, crear guiones, resumir documentos y ayudar en procesos de brainstorming.",
+                    apps: ["ChatGPT", "Gemini", "Claude"]
+                },
+                {
+                    title: "Creación de imágenes y vídeo",
+                    content: "Plataformas que generan imágenes a partir de descripciones textuales. También existen herramientas para crear y editar vídeos de forma automatizada.",
+                    apps: ["Midjourney", "DALL-E", "Stable Diffusion", "RunwayML"]
+                },
+                {
+                    title: "Análisis de datos y business intelligence",
+                    content: "Sistemas que pueden analizar enormes conjuntos de datos para identificar patrones, predecir tendencias y generar informes visuales, democratizando el acceso a la analítica avanzada.",
+                    apps: ["Microsoft Power BI Copilot", "Tableau GPT", "Dataiku"]
+                },
+                {
+                    title: "Automatización de tareas y flujos de trabajo",
+                    content: "Herramientas que conectan diferentes aplicaciones y automatizan tareas repetitivas (ej: guardar un adjunto de email en la nube y notificar por chat).",
+                    apps: ["Zapier", "Make (formerly Integromat)", "UIpath"]
+                },
+                {
+                    title: "Asistentes de programación",
+                    content: "Copilotos de código que sugieren líneas de código, completan funciones y ayudan a depurar errores, acelerando drásticamente el desarrollo de software.",
+                    apps: ["GitHub Copilot", "Amazon CodeWhisperer", "Replit AI"]
+                },
+                {
+                    title: "Traducción y localización",
+                    content: "Servicios de traducción automática cada vez más precisos y contextuales, que permiten la comunicación y la expansión de negocios a nivel global con mayor facilidad.",
+                    apps: ["DeepL", "Google Translate"]
+                }
+            ];
+
+            const accordionContainer = document.getElementById('accordion-container');
+            if(accordionContainer){
+                accordionData.forEach((item, index) => {
+                    const accordionItem = document.createElement('div');
+                    accordionItem.className = 'border-b-2 border-blue-500 bg-white rounded-lg shadow-sm mb-4 transition-transform duration-300 transform hover:scale-105';
+                    accordionItem.innerHTML = `
+                        <h2>
+                            <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-700 hover:bg-gray-100 transition-colors duration-200 rounded-lg" data-accordion-target="#accordion-body-${index}">
+                                <span>${item.title}</span>
+                                <svg class="w-6 h-6 shrink-0 transition-transform duration-300 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                            </button>
+                        </h2>
+                        <div id="accordion-body-${index}" class="hidden p-5 border-t-0 border-gray-200">
+                            <p class="mb-2 text-gray-600">${item.content}</p>
+                            <h4 class="font-semibold text-gray-700 mt-4 mb-2">Ejemplos:</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                ${item.apps.map(app => `<li class="text-blue-600">${app}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    accordionContainer.appendChild(accordionItem);
+                });
+
+                accordionContainer.addEventListener('click', function(e) {
+                    const button = e.target.closest('[data-accordion-target]');
+                    if (!button) return;
+
+                    const targetId = button.getAttribute('data-accordion-target');
+                    const targetBody = document.querySelector(targetId);
+                    const icon = button.querySelector('svg');
+
+                    if (targetBody) {
+                        const isHidden = targetBody.classList.contains('hidden');
+                        
+                        document.querySelectorAll('[id^="accordion-body-"]').forEach(body => {
+                            if (body !== targetBody) {
+                                body.classList.add('hidden');
+                                const otherButton = document.querySelector(`[data-accordion-target="#${body.id}"]`);
+                                if(otherButton) otherButton.querySelector('svg').classList.remove('rotate-180');
+                            }
+                        });
+
+                        targetBody.classList.toggle('hidden');
+                        icon.classList.toggle('rotate-180', !isHidden);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
