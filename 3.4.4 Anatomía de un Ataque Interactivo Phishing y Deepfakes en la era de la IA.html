@@ -1,346 +1,392 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anatomía de un Ataque: Phishing vs. Deepfake</title>
+    <meta name="description" content="Recurso interactivo para identificar y mitigar ataques de phishing y deepfakes, con prácticas de verificación y respuesta a incidentes.">
+    <meta name="theme-color" content="#0ea5e9">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
     <!-- Chosen Palette: Tech Neutrals (Light Sky background, Muted Blue primary, Amber accent) -->
     <!-- Application Structure Plan: A tab-based SPA with four sections (Inicio, Phishing, Deepfake, Escudo Digital). This structure allows for non-linear exploration, chunking complex information into manageable themes. Interactivity (toggles for comparison, accordions for detailed strategies) is prioritized over static text to enhance engagement and retention, making the abstract concepts of cyber threats more concrete and actionable for the user. -->
     <!-- Visualization & Content Choices: Phishing Evolution: Goal=Compare -> Method=Interactive Toggle (HTML/CSS/JS) showing "Classic vs. AI" email examples to highlight sophistication. Professional Impact: Goal=Inform -> Method=Interactive Cards (HTML/CSS) for digestible, focused content. Defense Strategies: Goal=Organize/Instruct -> Method=Accordion (HTML/JS) to structure actionable advice into Habilidades, Actitudes, Competencias, preventing information overload. All visuals are built with HTML/CSS, avoiding SVG/Mermaid. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
-        .tab-active {
-            border-bottom-color: #2563eb;
-            color: #1e3a8a;
-            font-weight: 600;
-        }
-        .content-section {
-            display: none;
-        }
-        .content-section.active {
-            display: block;
-        }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out;
-        }
-        .accordion-content.open {
-            max-height: 1000px; /* Increased max-height to prevent content cutoff */
-        }
-        .email-example {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px;
-            background-color: #ffffff;
-            font-family: Arial, sans-serif;
-            font-size: 14px;
-            color: #334155;
-        }
-        .email-header {
-            display: flex;
-            justify-content: space-between;
-            border-bottom: 1px solid #e2e8f0;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-        .email-sender span {
-            font-weight: bold;
-        }
-        .email-body {
-            line-height: 1.6;
-        }
-        .email-body a {
-            color: #3b82f6;
-            text-decoration: underline;
-        }
-        .email-body strong.warning {
-            color: #d97706;
-        }
+        :root { --focus: 2px solid #f59e0b; }
+        .focus-ring:focus-visible { outline: var(--focus); outline-offset: 2px; }
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease-in-out; }
+        .accordion-content.open { max-height: 1000px; }
+        .email-example { border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; font-size: 14px; }
+        .email-header { display: flex; justify-content: space-between; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-bottom: 12px; }
+        html[data-theme="dark"] .email-header { border-color: #374151; }
+        .email-sender span { font-weight: 700; }
+        .email-body { line-height: 1.6; }
+        .email-body a { text-decoration: underline; }
+        .email-body strong.warning { color: #b45309; }
+        @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
     </style>
 </head>
-<body class="bg-sky-50 text-slate-800 font-sans">
+<body class="bg-sky-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased transition-colors duration-300">
+    <a href="#main" class="sr-only focus:not-sr-only focus-ring bg-amber-100 text-slate-900 px-3 py-2 rounded absolute left-2 top-2 z-50">Saltar al contenido</a>
 
-    <div class="container mx-auto max-w-5xl p-4 md:p-8">
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Anatomía de un Ataque Interactivo</h1>
-            <p class="mt-2 text-lg text-slate-600">Phishing y Deepfakes en la Era de la IA</p>
+    <div class="container mx-auto max-w-6xl p-4 md:p-8">
+        <header class="mb-6 md:mb-8">
+            <div class="flex items-center justify-between gap-4">
+                <div class="text-left">
+                    <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">Anatomía de un Ataque Interactivo</h1>
+                    <p class="mt-1 text-base md:text-lg text-slate-600 dark:text-slate-300">Phishing y Deepfakes en la era de la IA</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="themeToggle" class="focus-ring inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-white/70 dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:bg-white dark:hover:bg-slate-700" aria-pressed="false" title="Cambiar tema">
+                        <span id="themeIcon" aria-hidden="true">🌞</span><span class="sr-only">Cambiar tema claro/oscuro</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-4 grid md:grid-cols-4 gap-3">
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                    <h3 class="font-semibold text-blue-800 dark:text-blue-300">Probabilidad: Phishing</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Alta (diario). <span class="text-slate-500 dark:text-slate-400">Spear-phishing dirigido por IA eleva tasa de clics.</span></p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                    <h3 class="font-semibold text-amber-800 dark:text-amber-300">Impacto: Phishing</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Alto a crítico. Robo de credenciales → compromiso de cuentas.</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                    <h3 class="font-semibold text-amber-800 dark:text-amber-300">Probabilidad: Deepfakes</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Media (creciendo). Mayor en roles financieros/directivos.</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                    <h3 class="font-semibold text-blue-800 dark:text-blue-300">Impacto: Deepfakes</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400">Crítico. Órdenes falsas, extorsión, daño reputacional.</p>
+                </div>
+            </div>
         </header>
 
-        <nav class="flex justify-center border-b border-slate-300 mb-8">
-            <button data-tab="inicio" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Inicio</button>
-            <button data-tab="phishing" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Anatomía del Phishing</button>
-            <button data-tab="deepfake" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Anatomía del Deepfake</button>
-            <button data-tab="escudo" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Tu Escudo Digital</button>
+        <nav class="flex justify-center mb-8 p-1 bg-slate-200/60 dark:bg-slate-800 rounded-xl" role="tablist" aria-label="Secciones">
+            <button data-tab="inicio" class="tab focus-ring w-full md:w-auto md:flex-1 px-4 py-2 text-sm font-medium rounded-lg" role="tab" aria-selected="true" aria-controls="inicio" id="tab-inicio">Inicio</button>
+            <button data-tab="phishing" class="tab focus-ring w-full md:w-auto md:flex-1 px-4 py-2 text-sm font-medium rounded-lg" role="tab" aria-selected="false" aria-controls="phishing" id="tab-phishing">Anatomía del Phishing</button>
+            <button data-tab="deepfake" class="tab focus-ring w-full md:w-auto md:flex-1 px-4 py-2 text-sm font-medium rounded-lg" role="tab" aria-selected="false" aria-controls="deepfake" id="tab-deepfake">Anatomía del Deepfake</button>
+            <button data-tab="escudo" class="tab focus-ring w-full md:w-auto md:flex-1 px-4 py-2 text-sm font-medium rounded-lg" role="tab" aria-selected="false" aria-controls="escudo" id="tab-escudo">Tu Escudo Digital</button>
         </nav>
 
-        <main>
-            <!-- Inicio Section -->
-            <section id="inicio" class="content-section space-y-6">
-                <h2 class="text-2xl font-bold text-blue-800">Bienvenidos a la nueva frontera de la ciberseguridad</h2>
-                <p class="text-lg leading-relaxed">El entorno digital ofrece oportunidades sin precedentes, pero también expande el campo de juego para actores maliciosos. Este recurso interactivo te guiará a través de dos de las amenazas más sofisticadas y en rápida evolución: el phishing y los deepfakes. Aquí no solo aprenderás a identificarlos, sino que también adquirirás las competencias necesarias para construir un escudo digital robusto y proteger tu carrera profesional en la era de la IA.</p>
-                <div class="grid md:grid-cols-2 gap-6 mt-6">
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
-                        <h3 class="text-xl font-semibold mb-2">Phishing Potenciado por IA</h3>
-                        <p>Descubre cómo un viejo truco aprendió a ser más inteligente, personal y peligroso, usando la IA para crear engaños casi perfectos.</p>
+        <main id="main">
+            <!-- INICIO -->
+            <section id="inicio" class="content-section space-y-6" role="tabpanel" aria-labelledby="tab-inicio">
+                <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-300">Bienvenidos a la nueva frontera de la ciberseguridad</h2>
+                <p class="text-lg leading-relaxed text-slate-700 dark:text-slate-300">Este recurso interactivo te guiará a través de dos de las amenazas más sofisticadas en rápida evolución: el <strong>phishing</strong> y los <strong>deepfakes</strong>. No solo aprenderás a reconocerlas; practicarás cómo responder sin pánico, verificando por otro canal y activando un mini-playbook de respuesta.</p>
+                
+                <div class="bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900 p-5 rounded-xl">
+                    <div class="flex items-center justify-between gap-2 mb-3">
+                        <h3 class="text-lg font-semibold text-emerald-800 dark:text-emerald-300">✅ Checklist de Acciones Rápidas (marca lo que ya aplicas)</h3>
+                        <button id="resetChecklist" class="focus-ring text-sm px-3 py-1.5 rounded bg-emerald-50 dark:bg-slate-700 border border-emerald-200 dark:border-slate-600 hover:bg-emerald-100 dark:hover:bg-slate-600">Reiniciar</button>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-amber-500">
-                        <h3 class="text-xl font-semibold mb-2">Deepfakes: La Suplantación Realista</h3>
-                        <p>Explora cómo la IA puede clonar voces y rostros para crear fraudes convincentes, haciendo que ver (y oír) ya no sea suficiente para creer.</p>
-                    </div>
+                    <ul id="quickChecklist" class="space-y-2 text-slate-700 dark:text-slate-300">
+                        <li><label class="inline-flex items-start gap-2 cursor-pointer"><input type="checkbox" data-key="mfa" class="mt-1 accent-blue-600"> Activé <strong>MFA</strong> en correo y herramientas clave.</label></li>
+                        <li><label class="inline-flex items-start gap-2 cursor-pointer"><input type="checkbox" data-key="passwordmanager" class="mt-1 accent-blue-600"> Uso un gestor de contraseñas para credenciales únicas.</label></li>
+                        <li><label class="inline-flex items-start gap-2 cursor-pointer"><input type="checkbox" data-key="outofband" class="mt-1 accent-blue-600"> Verifico solicitudes inusuales por <strong>otro canal</strong> (teléfono/chat).</label></li>
+                        <li><label class="inline-flex items-start gap-2 cursor-pointer"><input type="checkbox" data-key="safeword" class="mt-1 accent-blue-600"> Mi equipo y yo tenemos una <strong>palabra segura</strong> para llamadas/video.</label></li>
+                        <li><label class="inline-flex items-start gap-2 cursor-pointer"><input type="checkbox" data-key="report" class="mt-1 accent-blue-600"> Sé exactamente cómo y a quién <strong>reportar</strong> un incidente.</label></li>
+                    </ul>
                 </div>
-                 <p class="text-center pt-4 text-slate-500">Navega por las pestañas superiores para diseccionar cada amenaza y construir tus defensas.</p>
+
+                <p class="text-center pt-2 text-slate-500 dark:text-slate-400">Usa las pestañas superiores para diseccionar cada amenaza y fortalecer tus defensas.</p>
             </section>
 
-            <!-- Phishing Section -->
-            <section id="phishing" class="content-section space-y-6">
-                <h2 class="text-2xl font-bold text-blue-800">El Phishing: Un Depredador Digital que Aprende</h2>
-                <p class="text-lg leading-relaxed">El phishing ha evolucionado de ataques masivos y torpes a operaciones de alta precisión conocidas como *spear phishing*. La IA es el motor de esta transformación, permitiendo una personalización a escala y la mimetización del tono de escritura para que los engaños sean casi indistinguibles de las comunicaciones legítimas.</p>
-
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <div class="flex items-center justify-center space-x-4 mb-6">
-                        <span id="phishing-label-clasico" class="font-semibold text-blue-700">Clásico</span>
+            <!-- PHISHING -->
+            <section id="phishing" class="content-section space-y-6" role="tabpanel" aria-labelledby="tab-phishing">
+                <h2 class="text-2xl font-bold text-blue-800 dark:text-blue-300">El Phishing: un depredador que aprende</h2>
+                <p class="text-lg leading-relaxed text-slate-700 dark:text-slate-300">De envíos masivos a campañas dirigidas (*spear phishing*) que usan IA para imitar lenguaje, firma y contexto. La defensa central es la <strong>verificación fuera de banda</strong>.</p>
+                
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
+                    <div class="flex items-center justify-center gap-3 mb-5">
+                        <span id="phishing-label-clasico" class="font-semibold text-blue-700 dark:text-blue-300">Clásico</span>
                         <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="phishing-toggle" class="sr-only peer">
-                            <div class="w-11 h-6 bg-slate-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                            <input type="checkbox" id="phishing-toggle" class="sr-only" aria-labelledby="phishing-label-ia phishing-label-clasico">
+                            <div class="w-11 h-6 bg-slate-200 dark:bg-slate-600 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                         </label>
-                        <span id="phishing-label-ia" class="font-semibold text-slate-500">Potenciado por IA</span>
+                        <span id="phishing-label-ia" class="font-semibold text-slate-500 dark:text-slate-400">Potenciado por IA</span>
                     </div>
-
                     <div id="phishing-clasico">
-                        <div class="email-example">
-                            <div class="email-header">
-                                <div class="email-sender"><span>De:</span> Suporte Técnico &lt;soporte-tecnico123@servicioweb.info&gt;</div>
-                                <div class="text-slate-500">10 Sep 2025</div>
-                            </div>
-                            <div class="email-body">
-                                <p><strong class="warning">AVISO URGENTE:</strong> Su cuenta ha sido comprometida.</p>
-                                <p>Estimado usuario,</p>
-                                <p>Hemos detectado actividad sospechosa en su cuenta. Por su seguridad, debe verificar su identidad inmediatamente. Haga clic en el siguiente enlace para restablecer su contraseña.</p>
-                                <p><a href="#">http://banco-seguridad.xyz/login</a></p>
-                                <p>Si no lo hace en 24 horas, su cuenta será suspendida permanentemente.</p>
-                                <p>Gracias,<br>El equipo de Soporte</p>
-                            </div>
+                        <div class="email-example bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300">
+                             <div class="email-header"><div class="email-sender"><span>De:</span> Suporte Técnico &lt;soporte-tecnico123@servicioweb.info&gt;</div><div class="text-slate-500 dark:text-slate-400">10 Sep 2025</div></div>
+                             <div class="email-body"><p><strong class="warning">AVISO URGENTE:</strong> Su cuenta ha sido comprometida.</p><p>Estimado usuario,</p><p>Hemos detectado actividad sospechosa. Verifique su identidad ahora. Haga clic en el siguiente enlace para restablecer su contraseña.</p><p><a href="#" onclick="return false;" class="text-blue-600 dark:text-blue-400">http://banco-seguridad.xyz/login</a></p><p>Si no lo hace en 24 horas, su cuenta será suspendida.</p><p>Gracias,<br>Equipo de Soporte</p></div>
                         </div>
-                        <p class="text-sm text-slate-600 mt-2 pl-2 border-l-2 border-amber-400"><strong>Pistas del engaño:</strong> Remitente genérico, errores gramaticales, sentido de urgencia exagerado y una URL sospechosa.</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 pl-2 border-l-2 border-amber-400"><strong>Pistas:</strong> remitente genérico, errores, urgencia artificial, URL sospechosa.</p>
                     </div>
-
                     <div id="phishing-ia" class="hidden">
-                        <div class="email-example">
-                            <div class="email-header">
-                                <div class="email-sender"><span>De:</span> Ana García (Jefa de Proyecto) &lt;ana.garcia@tuempresa.com&gt;</div>
-                                <div class="text-slate-500">10 Sep 2025</div>
-                            </div>
-                            <div class="email-body">
-                                <p>Hola [Tu Nombre],</p>
-                                <p>Espero que estés bien. Siguiendo nuestra conversación sobre el cierre del proyecto "Quantum", necesito que revises el informe final de presupuesto. Hay un par de cifras que me gustaría discutir contigo antes de la presentación de mañana.</p>
-                                <p>He subido el documento a nuestro portal compartido. Por favor, accede con tus credenciales para revisarlo lo antes posible.</p>
-                                <p><a href="#">https://tuempresa-portal.com/document/Q4-Final</a></p>
-                                <p>Quedo atenta. ¡Gracias por tu ayuda!</p>
-                                <p>Saludos,<br>Ana García</p>
-                            </div>
+                        <div class="email-example bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300">
+                             <div class="email-header"><div class="email-sender"><span>De:</span> Ana García (Jefa de Proyecto) &lt;ana.garcia@tuempresa.com&gt;</div><div class="text-slate-500 dark:text-slate-400">10 Sep 2025</div></div>
+                             <div class="email-body"><p>Hola [Tu Nombre],</p><p>Siguiendo nuestra conversación sobre el cierre del proyecto “Quantum”, revisa el informe de presupuesto. Subí el documento al portal.</p><p><a href="#" onclick="return false;" class="text-blue-600 dark:text-blue-400">https://tuempresa-portal.com/document/Q4-Final</a></p><p>Quedo atenta.</p><p>Saludos,<br>Ana</p></div>
                         </div>
-                        <p class="text-sm text-slate-600 mt-2 pl-2 border-l-2 border-red-500"><strong>Pistas del engaño:</strong> El ataque es hiper-personalizado (tu nombre, nombre del proyecto), el tono es idéntico al de un colega y la URL parece legítima. La única defensa es la verificación por otro canal.</p>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 pl-2 border-l-2 border-red-500"><strong>Pistas:</strong> hiper-personalización, tono creíble, dominio look-alike. <strong>Defensa:</strong> verifica por teléfono/chat oficial.</p>
                     </div>
                 </div>
 
-                <h3 class="text-xl font-bold text-blue-800 pt-4">Impacto en tu Desarrollo Profesional</h3>
-                <div class="grid md:grid-cols-3 gap-4">
-                    <div class="bg-blue-100 p-4 rounded-lg border border-blue-200">
-                        <h4 class="font-semibold text-blue-900">Pérdida de Acceso y Control</h4>
-                        <p class="text-sm">El robo de credenciales puede bloquear tu acceso a herramientas de trabajo y permitir que un atacante actúe en tu nombre.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl">
+                        <h3 class="text-lg font-semibold mb-2 text-slate-900 dark:text-white">Taxonomía rápida</h3>
+                        <ul class="list-disc list-inside space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li><strong>Phishing masivo:</strong> plantillas genéricas, dominios desechables.</li>
+                            <li><strong>Spear-phishing:</strong> dirigido a personas/roles concretos.</li>
+                            <li><strong>Whaling:</strong> ejecutivos/finanzas (alto impacto).</li>
+                            <li><strong>Smishing/Vishing:</strong> SMS o llamadas con urgencia/voz clonada.</li>
+                            <li><strong>BEC:</strong> suplantación interna sin adjuntos maliciosos.</li>
+                        </ul>
                     </div>
-                    <div class="bg-blue-100 p-4 rounded-lg border border-blue-200">
-                        <h4 class="font-semibold text-blue-900">Daño Reputacional</h4>
-                        <p class="text-sm">Si tu cuenta se usa para atacar a otros, la confianza de tus colegas y clientes en ti puede verse seriamente comprometida.</p>
-                    </div>
-                    <div class="bg-blue-100 p-4 rounded-lg border border-blue-200">
-                        <h4 class="font-semibold text-blue-900">Consecuencias Laborales</h4>
-                        <p class="text-sm">Una brecha de seguridad causada por un descuido puede acarrear desde sanciones hasta la terminación de tu contrato.</p>
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl">
+                        <h3 class="text-lg font-semibold mb-2 text-slate-900 dark:text-white">Señales de alerta (checklist)</h3>
+                        <ul class="list-disc list-inside space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li>Urgencia inusual y violación de protocolo.</li>
+                            <li>Dominio look-alike (<code>tu-empresa.co</code> vs <code>tu-empresa.com</code>).</li>
+                            <li>Inconsistencia de estilo, firma u horario.</li>
+                            <li>Solicitud de credenciales, transferencias o gift cards.</li>
+                            <li>Fallas en <strong>SPF/DKIM/DMARC</strong> (si tienes visibilidad).</li>
+                        </ul>
                     </div>
                 </div>
             </section>
-            
-            <!-- Deepfake Section -->
-            <section id="deepfake" class="content-section space-y-6">
-                <h2 class="text-2xl font-bold text-amber-800">El Deepfake: Cuando Ver (y Oír) ya no es Creer</h2>
-                <p class="text-lg leading-relaxed">Los deepfakes, creados con tecnologías de IA como las Redes Generativas Antagónicas (GANs), han pasado de ser una curiosidad a una potente herramienta de fraude. La capacidad de clonar voces y suplantar rostros en tiempo real crea amenazas que eluden nuestras defensas más instintivas.</p>
 
-                 <div class="bg-white p-6 rounded-lg shadow-lg grid md:grid-cols-2 gap-6 items-center">
+            <!-- DEEPFAKE -->
+            <section id="deepfake" class="content-section space-y-6" role="tabpanel" aria-labelledby="tab-deepfake">
+                <h2 class="text-2xl font-bold text-amber-800 dark:text-amber-300">Deepfakes: cuando ver (y oír) ya no basta</h2>
+                <p class="text-lg leading-relaxed text-slate-700 dark:text-slate-300">Voz e imagen sintetizadas pueden ordenar pagos, filtrar datos o extorsionar. Refuerza protocolos de identidad y prepara a tu equipo para decir “no” con calma cuando algo no cuadra.</p>
+
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-md border border-slate-200 dark:border-slate-700 grid md:grid-cols-2 gap-6 items-start">
                     <div>
-                        <h3 class="font-semibold text-lg text-amber-900 mb-2">Vectores de Ataque Principales</h3>
+                        <h3 class="font-semibold text-lg text-amber-900 dark:text-amber-200 mb-2">Vectores de Ataque</h3>
                         <div class="space-y-4">
-                            <div class="flex items-start">
-                                <span class="text-2xl mr-3">🎤</span>
-                                <div>
-                                    <h4 class="font-bold">Clonación de Voz (Vishing)</h4>
-                                    <p class="text-sm text-slate-600">Con solo segundos de audio, una IA puede clonar una voz. Se usó esta técnica para simular la voz de un CEO y ordenar una transferencia fraudulenta de $243,000.</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <span class="text-2xl mr-3">📹</span>
-                                <div>
-                                    <h4 class="font-bold">Suplantación en Videollamadas</h4>
-                                    <p class="text-sm text-slate-600">La tecnología permite usar avatares deepfake en tiempo real, haciendo que un estafador pueda hacerse pasar por tu jefe o un cliente en una reunión virtual.</p>
-                                </div>
-                            </div>
+                            <div class="flex items-start"><span class="text-2xl mr-3">🎤</span><div><h4 class="font-bold text-slate-900 dark:text-white">Clonación de voz (Vishing)</h4><p class="text-sm text-slate-600 dark:text-slate-300">Con segundos de audio, se reproduce timbre y entonación para pedir transferencias o datos.</p></div></div>
+                            <div class="flex items-start"><span class="text-2xl mr-3">📹</span><div><h4 class="font-bold text-slate-900 dark:text-white">Suplantación en Videollamadas</h4><p class="text-sm text-slate-600 dark:text-slate-300">Avatares en tiempo real que imitan gestos básicos pero fallan en micro-expresiones o latencia labial.</p></div></div>
+                            <div class="flex items-start"><span class="text-2xl mr-3">📰</span><div><h4 class="font-bold text-slate-900 dark:text-white">Desinformación Dirigida</h4><p class="text-sm text-slate-600 dark:text-slate-300">Clips falsos que afectan reputación, clima laboral o decisiones de inversión.</p></div></div>
                         </div>
                     </div>
-                     <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
-                         <h4 class="font-semibold text-amber-900">Caso Real: El Fraude de los $25 Millones</h4>
-                         <p class="text-sm text-slate-700">En Hong Kong, un empleado fue engañado para transferir $25 millones tras participar en una videollamada con lo que él creía era su equipo directivo, pero que en realidad eran avatares deepfake. Este caso demuestra que la amenaza ya no es teórica.</p>
-                     </div>
+                    <div class="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-900">
+                        <h4 class="font-semibold text-amber-900 dark:text-amber-200">Guía de Verificación en Videollamada</h4>
+                        <ul class="list-disc list-inside space-y-2 text-sm text-slate-700 dark:text-slate-300">
+                            <li>Usa <strong>palabras seguras</strong> o preguntas que solo conozca el equipo.</li>
+                            <li>Pide una acción física no anticipada (mostrar un objeto con la fecha).</li>
+                            <li>Si hay presión/urgencia: <strong>corta la llamada</strong> y verifica por otro canal.</li>
+                        </ul>
+                    </div>
                 </div>
-                
-                <h3 class="text-xl font-bold text-amber-800 pt-4">Impacto en tu Desarrollo Profesional</h3>
+                 
                 <div class="grid md:grid-cols-3 gap-4">
-                    <div class="bg-amber-100 p-4 rounded-lg border border-amber-200">
-                        <h4 class="font-semibold text-amber-900">Fraude y Extorsión</h4>
-                        <p class="text-sm">Puedes ser engañado para realizar una acción indebida o ser víctima de extorsión usando un video o audio falso tuyo.</p>
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                        <h5 class="font-semibold text-slate-800 dark:text-slate-200">SPF/DKIM/DMARC</h5><p class="text-sm text-slate-600 dark:text-slate-400">Protocolos que validan la autenticidad de un correo.</p>
                     </div>
-                    <div class="bg-amber-100 p-4 rounded-lg border border-amber-200">
-                        <h4 class="font-semibold text-amber-900">Sabotaje y Desinformación</h4>
-                        <p class="text-sm">Un deepfake puede ser usado para dañar tu reputación, sabotear una oportunidad laboral o manipular decisiones en tu contra.</p>
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                        <h5 class="font-semibold text-slate-800 dark:text-slate-200">Liveness Checks</h5><p class="text-sm text-slate-600 dark:text-slate-400">Pruebas (parpadeo, luz) que un avatar deepfake no puede replicar bien.</p>
                     </div>
-                    <div class="bg-amber-100 p-4 rounded-lg border border-amber-200">
-                        <h4 class="font-semibold text-amber-900">Erosión de la Confianza</h4>
-                        <p class="text-sm">La amenaza constante de deepfakes nos obliga a cuestionar la autenticidad de las comunicaciones, complicando la colaboración.</p>
+                    <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-4 rounded-xl">
+                        <h5 class="font-semibold text-slate-800 dark:text-slate-200">Look-alike Domains</h5><p class="text-sm text-slate-600 dark:text-slate-400">Dominios casi idénticos al original para engañar usuarios.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Escudo Digital Section -->
-            <section id="escudo" class="content-section space-y-6">
-                 <h2 class="text-2xl font-bold text-emerald-800">Construyendo tu Escudo Digital: Competencias para la Nueva Realidad</h2>
-                 <p class="text-lg leading-relaxed">La defensa eficaz no reside en una única herramienta, sino en un conjunto de competencias que combinan el conocimiento técnico con una mentalidad crítica. A continuación, explora las habilidades, actitudes y competencias que necesitas para protegerte.</p>
+            <!-- ESCUDO DIGITAL -->
+            <section id="escudo" class="content-section space-y-6" role="tabpanel" aria-labelledby="tab-escudo">
+                <h2 class="text-2xl font-bold text-emerald-800 dark:text-emerald-300">Construye tu escudo: competencias integradas</h2>
+                <p class="text-lg leading-relaxed text-slate-700 dark:text-slate-300">No hay una solución única. La defensa efectiva combina herramientas tecnológicas, una mentalidad crítica y procedimientos claros de respuesta.</p>
                 
-                 <div id="accordion-container" class="space-y-3">
-                    <!-- Habilidades -->
+                <div id="accordion-container" class="space-y-3">
                     <div>
-                        <button class="accordion-toggle w-full flex justify-between items-center text-left p-4 bg-white rounded-lg shadow font-semibold text-lg text-emerald-900 hover:bg-emerald-50 transition">
-                            <span>🔧 Habilidades (Saber Hacer)</span>
-                            <span class="transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content bg-white px-4 pb-4 rounded-b-lg shadow-inner">
-                            <ul class="list-disc list-inside space-y-3 text-slate-700 pt-4">
-                                <li><strong>Verificación Fuera de Banda:</strong> Ante una solicitud urgente o inusual (ej. transferir dinero), no respondas por el mismo canal. Llama por teléfono a un número conocido o usa otra app de mensajería para confirmar la legitimidad de la petición. Es el paso más seguro.</li>
-                                <li><strong>Análisis Forense Básico:</strong> Aprende a inspeccionar los detalles. En correos, pasa el cursor sobre los enlaces para ver la URL real antes de hacer clic. En videos, busca inconsistencias sutiles como falta de parpadeo, desenfoques extraños en los bordes de la cara o una sincronización labial imperfecta.</li>
-                                <li><strong>Configuración de "Palabra Segura":</strong> En entornos de equipo, establece una palabra clave o una pregunta personal que solo los interlocutores reales conocerían. Es una forma simple y efectiva de verificar la identidad en una llamada de voz o video sospechosa.</li>
-                            </ul>
-                        </div>
+                        <button class="accordion-toggle focus-ring w-full flex justify-between items-center text-left p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md font-semibold text-lg text-emerald-900 dark:text-emerald-200 hover:bg-emerald-50/60 dark:hover:bg-slate-700 transition"><span>🔧 Habilidades (Saber Hacer)</span><span class="transition-transform">▼</span></button>
+                        <div class="accordion-content bg-white dark:bg-slate-800 px-4 pb-4 rounded-b-lg shadow-inner"><ul class="list-disc list-inside space-y-3 text-slate-700 dark:text-slate-300 pt-4"><li><strong>Verificación Fuera de Banda:</strong> Ante cualquier solicitud de dinero, credenciales o datos sensibles, confirma por otro canal (llamada, chat) con un contacto conocido.</li><li><strong>Análisis Básico:</strong> Inspecciona cabeceras de correo, pasa el cursor sobre enlaces sin hacer clic y busca artefactos visuales en videos.</li><li><strong>Palabra Segura:</strong> Define una palabra o pregunta clave con tus equipos para verificar la identidad en comunicaciones de voz o video.</li></ul></div>
                     </div>
+                    <div>
+                        <button class="accordion-toggle focus-ring w-full flex justify-between items-center text-left p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md font-semibold text-lg text-emerald-900 dark:text-emerald-200 hover:bg-emerald-50/60 dark:hover:bg-slate-700 transition"><span>🧠 Actitudes (Saber Ser)</span><span class="transition-transform">▼</span></button>
+                        <div class="accordion-content bg-white dark:bg-slate-800 px-4 pb-4 rounded-b-lg shadow-inner"><ul class="list-disc list-inside space-y-3 text-slate-700 dark:text-slate-300 pt-4"><li><strong>Escepticismo Metódico:</strong> Asume una postura de "confianza cero". La pregunta no es "¿es esto legítimo?", sino "¿cómo puedo probar que lo es?".</li><li><strong>Resiliencia a la Urgencia:</strong> Los atacantes explotan el pánico. La mejor defensa es la pausa. Detente, respira y analiza antes de actuar.</li></ul></div>
+                    </div>
+                    <div>
+                        <button class="accordion-toggle focus-ring w-full flex justify-between items-center text-left p-4 bg-white dark:bg-slate-800 rounded-lg shadow-md font-semibold text-lg text-emerald-900 dark:text-emerald-200 hover:bg-emerald-50/60 dark:hover:bg-slate-700 transition"><span>🛡️ Competencias (Saber Integrar)</span><span class="transition-transform">▼</span></button>
+                        <div class="accordion-content bg-white dark:bg-slate-800 px-4 pb-4 rounded-b-lg shadow-inner"><ul class="list-disc list-inside space-y-3 text-slate-700 dark:text-slate-300 pt-4"><li><strong>Alfabetización Digital Crítica:</strong> Evalúa la procedencia y credibilidad de la información, comprendiendo el potencial de manipulación.</li><li><strong>Gestión de Huella Digital:</strong> Reduce la exposición pública de tu voz, imágenes y datos personales para minimizar el material disponible para ataques.</li><li><strong>Respuesta a Incidentes:</strong> Conoce el plan: a quién contactar, cómo aislar el problema y qué pasos seguir para mitigar el daño.</li></ul></div>
+                    </div>
+                </div>
 
-                    <!-- Actitudes -->
-                    <div>
-                        <button class="accordion-toggle w-full flex justify-between items-center text-left p-4 bg-white rounded-lg shadow font-semibold text-lg text-emerald-900 hover:bg-emerald-50 transition">
-                            <span>🧠 Actitudes (Saber Ser)</span>
-                             <span class="transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content bg-white px-4 pb-4 rounded-b-lg shadow-inner">
-                             <ul class="list-disc list-inside space-y-3 text-slate-700 pt-4">
-                                <li><strong>Escepticismo Saludable (Mentalidad de "Confianza Cero"):</strong> No confíes implícitamente en ninguna comunicación digital no solicitada, sin importar cuán legítima parezca. Asume una postura de verificación por defecto. La pregunta no es "¿es esto legítimo?", sino "¿cómo puedo probar que esto es legítimo?".</li>
-                                <li><strong>Resistencia a la Urgencia:</strong> Los atacantes manipulan las emociones creando un falso sentido de urgencia o pánico. La actitud defensiva clave es la pausa. Detente, respira y analiza la situación lógicamente antes de actuar. Ninguna solicitud legítima requiere una acción impulsiva que viole los protocolos de seguridad.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <!-- Competencias -->
-                    <div>
-                        <button class="accordion-toggle w-full flex justify-between items-center text-left p-4 bg-white rounded-lg shadow font-semibold text-lg text-emerald-900 hover:bg-emerald-50 transition">
-                            <span>🛡️ Competencias (Saber Integrar)</span>
-                             <span class="transform transition-transform duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content bg-white px-4 pb-4 rounded-b-lg shadow-inner">
-                             <ul class="list-disc list-inside space-y-3 text-slate-700 pt-4">
-                                <li><strong>Alfabetización Digital Crítica:</strong> Va más allá de saber usar la tecnología. Implica comprender sus mecanismos de funcionamiento y su potencial para la manipulación. Es la capacidad de evaluar críticamente la información y su procedencia en el contexto de un ecosistema digital propenso a la falsificación.</li>
-                                <li><strong>Gestión de tu Huella Digital:</strong> Sé consciente de qué información sobre ti está disponible públicamente. Cuantos más datos personales, profesionales y de voz compartas, más material proporcionas a los atacantes para construir un ataque personalizado en tu contra. Configura la privacidad de tus perfiles y sé selectivo con lo que publicas.</li>
-                                <li><strong>Protocolo de Respuesta a Incidentes:</strong> Saber qué hacer si sospechas que has sido comprometido es tan importante como la prevención. Esto incluye cambiar inmediatamente las contraseñas, notificar al departamento de TI de tu empresa, informar a tus bancos y alertar a tus contactos sobre la posible suplantación.</li>
-                            </ul>
-                        </div>
-                    </div>
-                 </div>
+                <div class="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 p-5 rounded-xl">
+                    <div class="flex items-center justify-between"><h3 class="font-semibold text-emerald-900 dark:text-emerald-200">Mini-playbook de Respuesta</h3><button id="copyPlaybook" class="focus-ring text-sm px-3 py-1.5 rounded bg-white/80 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 hover:bg-white dark:hover:bg-slate-600">Copiar</button></div>
+                    <pre id="playbook" class="mt-3 text-sm whitespace-pre-wrap leading-6 overflow-x-auto text-slate-700 dark:text-slate-300">1. PAUSA: No hagas clic, no respondas, no transfieras.
+2. VERIFICA: Llama por otro canal a un contacto conocido.
+3. CONTIENE: Si hubo error, cambia contraseñas y cierra sesiones.
+4. REPORTA: Alerta a TI/Seguridad inmediatamente.
+5. REGISTRA: Guarda el email/mensaje como evidencia.</pre>
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl space-y-3">
+                    <h3 class="font-semibold text-slate-800 dark:text-slate-200">Micro-quiz rápido</h3>
+                    <ol class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
+                        <li><p>1) Recibes una orden “paga hoy” por videollamada con tu CFO. ¿Qué haces?</p><div class="grid sm:grid-cols-2 gap-2"><button class="quiz-btn focus-ring px-3 py-2 rounded border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700" data-q="1" data-a="A">A) Procedo si el rostro/voz coinciden.</button><button class="quiz-btn focus-ring px-3 py-2 rounded border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700" data-q="1" data-a="B">B) Corto y verifico por otro canal con una palabra segura.</button></div><p id="feedback-1" class="text-xs mt-1"></p></li>
+                        <li><p>2) Un correo interno te pide tus credenciales por una “auditoría”. ¿Qué invalida el pedido?</p><div class="grid sm:grid-cols-2 gap-2"><button class="quiz-btn focus-ring px-3 py-2 rounded border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700" data-q="2" data-a="A">A) Viene del dominio corporativo.</button><button class="quiz-btn focus-ring px-3 py-2 rounded border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700" data-q="2" data-a="B">B) Solicita contraseña (violación de protocolo).</button></div><p id="feedback-2" class="text-xs mt-1"></p></li>
+                        <li><p>3) ¿Cuál es el orden correcto en un incidente?</p><div class="grid sm:grid-cols-3 gap-2"><button class="quiz-btn focus-ring px-3 py-2 rounded border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700" data-q="3" data-a="A">A) Verificar → Reportar → Contener</button><button class="quiz-btn focus-ring px-3 py-2 rounded border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700" data-q="3" data-a="B">B) Contener → Verificar → Reportar</button><button class="quiz-btn focus-ring px-3 py-2 rounded border border-slate-300 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700" data-q="3" data-a="C">C) Pausa → Verificar → Contener → Reportar</button></div><p id="feedback-3" class="text-xs mt-1"></p></li>
+                    </ol>
+                </div>
             </section>
         </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const root = document.documentElement;
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const savedTheme = localStorage.getItem('theme');
             const tabs = document.querySelectorAll('.tab');
             const sections = document.querySelectorAll('.content-section');
 
-            function showSection(tabId) {
-                sections.forEach(section => {
-                    if (section.id === tabId) {
-                        section.classList.add('active');
-                    } else {
-                        section.classList.remove('active');
-                    }
-                });
+            const lightModeClasses = {
+                active: 'bg-white text-blue-700 shadow-sm',
+                inactive: 'text-slate-600 hover:bg-white/60'
+            };
+            const darkModeClasses = {
+                active: 'bg-slate-700 text-blue-300',
+                inactive: 'text-slate-300 hover:bg-slate-700/50'
+            };
 
+            function applyTheme(theme) {
+                root.setAttribute('data-theme', theme);
+                if (themeIcon) themeIcon.textContent = theme === 'dark' ? '🌙' : '🌞';
+                if (themeToggle) themeToggle.setAttribute('aria-pressed', theme === 'dark');
+                updateTabStyles(theme);
+            }
+            
+            function updateTabStyles(theme) {
+                const isDark = theme === 'dark';
+                const activeClasses = isDark ? darkModeClasses.active : lightModeClasses.active;
+                const inactiveClasses = isDark ? darkModeClasses.inactive : lightModeClasses.inactive;
+                
                 tabs.forEach(tab => {
-                    if (tab.dataset.tab === tabId) {
-                        tab.classList.add('tab-active');
+                    const isActive = tab.getAttribute('aria-selected') === 'true';
+                    
+                    tab.classList.remove(...lightModeClasses.active.split(' '), ...lightModeClasses.inactive.split(' '), ...darkModeClasses.active.split(' '), ...darkModeClasses.inactive.split(' '));
+                    
+                    if(isActive) {
+                        tab.classList.add(...activeClasses.split(' '));
                     } else {
-                        tab.classList.remove('tab-active');
+                        tab.classList.add(...inactiveClasses.split(' '));
                     }
                 });
             }
 
+            if (savedTheme) {
+                applyTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                applyTheme('dark');
+            } else {
+                applyTheme('light');
+            }
+
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    const newTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                    localStorage.setItem('theme', newTheme);
+                    applyTheme(newTheme);
+                });
+            }
+            
+            function showSection(id) {
+                sections.forEach(s => s.classList.toggle('active', s.id === id));
+                tabs.forEach(t => {
+                    t.setAttribute('aria-selected', String(t.dataset.tab === id));
+                });
+                applyTheme(root.getAttribute('data-theme'));
+            }
+
             tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    showSection(tab.dataset.tab);
+                tab.addEventListener('click', (e) => showSection(e.currentTarget.dataset.tab));
+                tab.addEventListener('keydown', (e) => {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        const idx = Array.from(tabs).indexOf(e.currentTarget);
+                        const nextIdx = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+                        tabs[nextIdx].focus();
+                        tabs[nextIdx].click();
+                    }
                 });
             });
-
+            
             showSection('inicio');
 
             const phishingToggle = document.getElementById('phishing-toggle');
-            const phishingClasico = document.getElementById('phishing-clasico');
-            const phishingIA = document.getElementById('phishing-ia');
-            const labelClasico = document.getElementById('phishing-label-clasico');
-            const labelIA = document.getElementById('phishing-label-ia');
+            if (phishingToggle) {
+                phishingToggle.addEventListener('change', function() {
+                    const isAi = this.checked;
+                    document.getElementById('phishing-clasico').classList.toggle('hidden', isAi);
+                    document.getElementById('phishing-ia').classList.toggle('hidden', !isAi);
+                    const labelIA = document.getElementById('phishing-label-ia');
+                    const labelClasico = document.getElementById('phishing-label-clasico');
+                    labelIA.classList.toggle('text-blue-700', isAi);
+                    labelIA.classList.toggle('dark:text-blue-300', isAi);
+                    labelIA.classList.toggle('text-slate-500', !isAi);
+                    labelIA.classList.toggle('dark:text-slate-400', !isAi);
+                    labelClasico.classList.toggle('text-blue-700', !isAi);
+                    labelClasico.classList.toggle('dark:text-blue-300', !isAi);
+                    labelClasico.classList.toggle('text-slate-500', isAi);
+                    labelClasico.classList.toggle('dark:text-slate-400', isAi);
+                });
+            }
 
-            phishingToggle.addEventListener('change', function() {
-                if (this.checked) {
-                    phishingClasico.classList.add('hidden');
-                    phishingIA.classList.remove('hidden');
-                    labelIA.classList.remove('text-slate-500');
-                    labelIA.classList.add('text-blue-700');
-                    labelClasico.classList.add('text-slate-500');
-                    labelClasico.classList.remove('text-blue-700');
-                } else {
-                    phishingClasico.classList.remove('hidden');
-                    phishingIA.classList.add('hidden');
-                    labelClasico.classList.remove('text-slate-500');
-                    labelClasico.classList.add('text-blue-700');
-                    labelIA.classList.add('text-slate-500');
-                    labelIA.classList.remove('text-blue-700');
-                }
-            });
-
-            const accordionToggles = document.querySelectorAll('.accordion-toggle');
-            accordionToggles.forEach(toggle => {
+            document.querySelectorAll('.accordion-toggle').forEach(toggle => {
                 toggle.addEventListener('click', () => {
                     const content = toggle.nextElementSibling;
                     const icon = toggle.querySelector('span:last-child');
-                    
                     const isOpen = content.classList.contains('open');
-                    
-                    document.querySelectorAll('.accordion-content.open').forEach(openContent => {
-                        if (openContent !== content) {
-                           openContent.classList.remove('open');
-                           openContent.previousElementSibling.querySelector('span:last-child').style.transform = 'rotate(0deg)';
+                    document.querySelectorAll('.accordion-content.open').forEach(c => {
+                        if (c !== content) {
+                           c.classList.remove('open');
+                           const i = c.previousElementSibling.querySelector('span:last-child');
+                           if (i) i.style.transform = 'rotate(0deg)';
                         }
                     });
+                    content.classList.toggle('open');
+                    if(icon) icon.style.transform = content.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+                });
+            });
 
-                    if(!isOpen) {
-                        content.classList.add('open');
-                        icon.style.transform = 'rotate(180deg)';
-                    } else {
-                        content.classList.remove('open');
-                        icon.style.transform = 'rotate(0deg)';
+            const checklist = document.getElementById('quickChecklist');
+            if (checklist) {
+                const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(cb => {
+                    const key = 'check_' + cb.dataset.key;
+                    cb.checked = localStorage.getItem(key) === '1';
+                    cb.addEventListener('change', () => localStorage.setItem(key, cb.checked ? '1' : '0'));
+                });
+                const resetBtn = document.getElementById('resetChecklist');
+                if (resetBtn) {
+                    resetBtn.addEventListener('click', () => {
+                        checkboxes.forEach(cb => {
+                            cb.checked = false;
+                            localStorage.removeItem('check_' + cb.dataset.key);
+                        });
+                    });
+                }
+            }
+
+            const copyBtn = document.getElementById('copyPlaybook');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', async () => {
+                    const text = document.getElementById('playbook').innerText;
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        copyBtn.textContent = 'Copiado ✔';
+                        setTimeout(() => { copyBtn.textContent = 'Copiar'; }, 2000);
+                    } catch (err) {
+                        alert('No se pudo copiar el texto.');
                     }
+                });
+            }
+            
+            const correctAnswers = { 1: 'B', 2: 'B', 3: 'C' };
+            document.querySelectorAll('.quiz-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const q = btn.dataset.q;
+                    const a = btn.dataset.a;
+                    const isCorrect = correctAnswers[q] === a;
+                    const feedbackEl = document.getElementById('feedback-' + q);
+                    feedbackEl.textContent = isCorrect ? '✅ ¡Correcto! La verificación y la pausa son claves.' : '❌ Incorrecto. Vuelve a intentarlo.';
+                    feedbackEl.className = 'text-xs mt-1 ' + (isCorrect ? 'text-emerald-700 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300');
                 });
             });
         });
