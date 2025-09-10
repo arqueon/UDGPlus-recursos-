@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomía de un Ataque: Phishing vs. Deepfake</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Tech Neutrals (Light Sky background, Muted Blue primary, Amber accent) -->
+    <!-- Application Structure Plan: A tab-based SPA with four sections (Inicio, Phishing, Deepfake, Escudo Digital). This structure allows for non-linear exploration, chunking complex information into manageable themes. Interactivity (toggles for comparison, accordions for detailed strategies) is prioritized over static text to enhance engagement and retention, making the abstract concepts of cyber threats more concrete and actionable for the user. -->
+    <!-- Visualization & Content Choices: Phishing Evolution: Goal=Compare -> Method=Interactive Toggle (HTML/CSS/JS) showing "Classic vs. AI" email examples to highlight sophistication. Professional Impact: Goal=Inform -> Method=Interactive Cards (HTML/CSS) for digestible, focused content. Defense Strategies: Goal=Organize/Instruct -> Method=Accordion (HTML/JS) to structure actionable advice into Habilidades, Actitudes, Competencias, preventing information overload. All visuals are built with HTML/CSS, avoiding SVG/Mermaid. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        .tab-active {
+            border-bottom-color: #2563eb;
+            color: #1e3a8a;
+            font-weight: 600;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out;
+        }
+        .accordion-content.open {
+            max-height: 1000px; /* Increased max-height to prevent content cutoff */
+        }
+        .email-example {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            background-color: #ffffff;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #334155;
+        }
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+        .email-sender span {
+            font-weight: bold;
+        }
+        .email-body {
+            line-height: 1.6;
+        }
+        .email-body a {
+            color: #3b82f6;
+            text-decoration: underline;
+        }
+        .email-body strong.warning {
+            color: #d97706;
+        }
+    </style>
+</head>
+<body class="bg-sky-50 text-slate-800 font-sans">
+
+    <div class="container mx-auto max-w-5xl p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-slate-900">Anatomía de un Ataque Interactivo</h1>
+            <p class="mt-2 text-lg text-slate-600">Phishing y Deepfakes en la Era de la IA</p>
+        </header>
+
+        <nav class="flex justify-center border-b border-slate-300 mb-8">
+            <button data-tab="inicio" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Inicio</button>
+            <button data-tab="phishing" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Anatomía del Phishing</button>
+            <button data-tab="deepfake" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Anatomía del Deepfake</button>
+            <button data-tab="escudo" class="tab py-4 px-6 text-slate-600 border-b-2 border-transparent transition-colors duration-300">Tu Escudo Digital</button>
+        </nav>
+
+        <main>
+            <!-- Inicio Section -->
+            <section id="inicio" class="content-section space-y-6">
+                <h2 class="text-2xl font-bold text-blue-800">Bienvenidos a la nueva frontera de la ciberseguridad</h2>
+                <p class="text-lg leading-relaxed">El entorno digital ofrece oportunidades sin precedentes, pero también expande el campo de juego para actores maliciosos. Este recurso interactivo te guiará a través de dos de las amenazas más sofisticadas y en rápida evolución: el phishing y los deepfakes. Aquí no solo aprenderás a identificarlos, sino que también adquirirás las competencias necesarias para construir un escudo digital robusto y proteger tu carrera profesional en la era de la IA.</p>
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
+                        <h3 class="text-xl font-semibold mb-2">Phishing Potenciado por IA</h3>
+                        <p>Descubre cómo un viejo truco aprendió a ser más inteligente, personal y peligroso, usando la IA para crear engaños casi perfectos.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-md border-l-4 border-amber-500">
+                        <h3 class="text-xl font-semibold mb-2">Deepfakes: La Suplantación Realista</h3>
+                        <p>Explora cómo la IA puede clonar voces y rostros para crear fraudes convincentes, haciendo que ver (y oír) ya no sea suficiente para creer.</p>
+                    </div>
+                </div>
+                 <p class="text-center pt-4 text-slate-500">Navega por las pestañas superiores para diseccionar cada amenaza y construir tus defensas.</p>
+            </section>
+
+            <!-- Phishing Section -->
+            <section id="phishing" class="content-section space-y-6">
+                <h2 class="text-2xl font-bold text-blue-800">El Phishing: Un Depredador Digital que Aprende</h2>
+                <p class="text-lg leading-relaxed">El phishing ha evolucionado de ataques masivos y torpes a operaciones de alta precisión conocidas como *spear phishing*. La IA es el motor de esta transformación, permitiendo una personalización a escala y la mimetización del tono de escritura para que los engaños sean casi indistinguibles de las comunicaciones legítimas.</p>
+
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <div class="flex items-center justify-center space-x-4 mb-6">
+                        <span id="phishing-label-clasico" class="font-semibold text-blue-700">Clásico</span>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="phishing-toggle" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                        <span id="phishing-label-ia" class="font-semibold text-slate-500">Potenciado por IA</span>
+                    </div>
+
+                    <div id="phishing-clasico">
+                        <div class="email-example">
+                            <div class="email-header">
+                                <div class="email-sender"><span>De:</span> Suporte Técnico &lt;soporte-tecnico123@servicioweb.info&gt;</div>
+                                <div class="text-slate-500">10 Sep 2025</div>
+                            </div>
+                            <div class="email-body">
+                                <p><strong class="warning">AVISO URGENTE:</strong> Su cuenta ha sido comprometida.</p>
+                                <p>Estimado usuario,</p>
+                                <p>Hemos detectado actividad sospechosa en su cuenta. Por su seguridad, debe verificar su identidad inmediatamente. Haga clic en el siguiente enlace para restablecer su contraseña.</p>
+                                <p><a href="#">http://banco-seguridad.xyz/login</a></p>
+                                <p>Si no lo hace en 24 horas, su cuenta será suspendida permanentemente.</p>
+                                <p>Gracias,<br>El equipo de Soporte</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2 pl-2 border-l-2 border-amber-400"><strong>Pistas del engaño:</strong> Remitente genérico, errores gramaticales, sentido de urgencia exagerado y una URL sospechosa.</p>
+                    </div>
+
+                    <div id="phishing-ia" class="hidden">
+                        <div class="email-example">
+                            <div class="email-header">
+                                <div class="email-sender"><span>De:</span> Ana García (Jefa de Proyecto) &lt;ana.garcia@tuempresa.com&gt;</div>
+                                <div class="text-slate-500">10 Sep 2025</div>
+                            </div>
+                            <div class="email-body">
+                                <p>Hola [Tu Nombre],</p>
+                                <p>Espero que estés bien. Siguiendo nuestra conversación sobre el cierre del proyecto "Quantum", necesito que revises el informe final de presupuesto. Hay un par de cifras que me gustaría discutir contigo antes de la presentación de mañana.</p>
+                                <p>He subido el documento a nuestro portal compartido. Por favor, accede con tus credenciales para revisarlo lo antes posible.</p>
+                                <p><a href="#">https://tuempresa-portal.com/document/Q4-Final</a></p>
+                                <p>Quedo atenta. ¡Gracias por tu ayuda!</p>
+                                <p>Saludos,<br>Ana García</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-2 pl-2 border-l-2 border-red-500"><strong>Pistas del engaño:</strong> El ataque es hiper-personalizado (tu nombre, nombre del proyecto), el tono es idéntico al de un colega y la URL parece legítima. La única defensa es la verificación por otro canal.</p>
+                    </div>
+                </div>
+
+                <h3 class="text-xl font-bold text-blue-800 pt-4">Impacto en tu Desarrollo Profesional</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-blue-100 p-4 rounded-lg border border-blue-200">
+                        <h4 class="font-semibold text-blue-900">Pérdida de Acceso y Control</h4>
+                        <p class="text-sm">El robo de credenciales puede bloquear tu acceso a herramientas de trabajo y permitir que un atacante actúe en tu nombre.</p>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded-lg border border-blue-200">
+                        <h4 class="font-semibold text-blue-900">Daño Reputacional</h4>
+                        <p class="text-sm">Si tu cuenta se usa para atacar a otros, la confianza de tus colegas y clientes en ti puede verse seriamente comprometida.</p>
+                    </div>
+                    <div class="bg-blue-100 p-4 rounded-lg border border-blue-200">
+                        <h4 class="font-semibold text-blue-900">Consecuencias Laborales</h4>
+                        <p class="text-sm">Una brecha de seguridad causada por un descuido puede acarrear desde sanciones hasta la terminación de tu contrato.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Deepfake Section -->
+            <section id="deepfake" class="content-section space-y-6">
+                <h2 class="text-2xl font-bold text-amber-800">El Deepfake: Cuando Ver (y Oír) ya no es Creer</h2>
+                <p class="text-lg leading-relaxed">Los deepfakes, creados con tecnologías de IA como las Redes Generativas Antagónicas (GANs), han pasado de ser una curiosidad a una potente herramienta de fraude. La capacidad de clonar voces y suplantar rostros en tiempo real crea amenazas que eluden nuestras defensas más instintivas.</p>
+
+                 <div class="bg-white p-6 rounded-lg shadow-lg grid md:grid-cols-2 gap-6 items-center">
+                    <div>
+                        <h3 class="font-semibold text-lg text-amber-900 mb-2">Vectores de Ataque Principales</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <span class="text-2xl mr-3">🎤</span>
+                                <div>
+                                    <h4 class="font-bold">Clonación de Voz (Vishing)</h4>
+                                    <p class="text-sm text-slate-600">Con solo segundos de audio, una IA puede clonar una voz. Se usó esta técnica para simular la voz de un CEO y ordenar una transferencia fraudulenta de $243,000.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <span class="text-2xl mr-3">📹</span>
+                                <div>
+                                    <h4 class="font-bold">Suplantación en Videollamadas</h4>
+                                    <p class="text-sm text-slate-600">La tecnología permite usar avatares deepfake en tiempo real, haciendo que un estafador pueda hacerse pasar por tu jefe o un cliente en una reunión virtual.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="bg-amber-50 p-4 rounded-lg border border-amber-200">
+                         <h4 class="font-semibold text-amber-900">Caso Real: El Fraude de los $25 Millones</h4>
+                         <p class="text-sm text-slate-700">En Hong Kong, un empleado fue engañado para transferir $25 millones tras participar en una videollamada con lo que él creía era su equipo directivo, pero que en realidad eran avatares deepfake. Este caso demuestra que la amenaza ya no es teórica.</p>
+                     </div>
+                </div>
+                
+                <h3 class="text-xl font-bold text-amber-800 pt-4">Impacto en tu Desarrollo Profesional</h3>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-amber-100 p-4 rounded-lg border border-amber-200">
+                        <h4 class="font-semibold text-amber-900">Fraude y Extorsión</h4>
+                        <p class="text-sm">Puedes ser engañado para realizar una acción indebida o ser víctima de extorsión usando un video o audio falso tuyo.</p>
+                    </div>
+                    <div class="bg-amber-100 p-4 rounded-lg border border-amber-200">
+                        <h4 class="font-semibold text-amber-900">Sabotaje y Desinformación</h4>
+                        <p class="text-sm">Un deepfake puede ser usado para dañar tu reputación, sabotear una oportunidad laboral o manipular decisiones en tu contra.</p>
+                    </div>
+                    <div class="bg-amber-100 p-4 rounded-lg border border-amber-200">
+                        <h4 class="font-semibold text-amber-900">Erosión de la Confianza</h4>
+                        <p class="text-sm">La amenaza constante de deepfakes nos obliga a cuestionar la autenticidad de las comunicaciones, complicando la colaboración.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Escudo Digital Section -->
+            <section id="escudo" class="content-section space-y-6">
+                 <h2 class="text-2xl font-bold text-emerald-800">Construyendo tu Escudo Digital: Competencias para la Nueva Realidad</h2>
+                 <p class="text-lg leading-relaxed">La defensa eficaz no reside en una única herramienta, sino en un conjunto de competencias que combinan el conocimiento técnico con una mentalidad crítica. A continuación, explora las habilidades, actitudes y competencias que necesitas para protegerte.</p>
+                
+                 <div id="accordion-container" class="space-y-3">
+                    <!-- Habilidades -->
+                    <div>
+                        <button class="accordion-toggle w-full flex justify-between items-center text-left p-4 bg-white rounded-lg shadow font-semibold text-lg text-emerald-900 hover:bg-emerald-50 transition">
+                            <span>🔧 Habilidades (Saber Hacer)</span>
+                            <span class="transform transition-transform duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content bg-white px-4 pb-4 rounded-b-lg shadow-inner">
+                            <ul class="list-disc list-inside space-y-3 text-slate-700 pt-4">
+                                <li><strong>Verificación Fuera de Banda:</strong> Ante una solicitud urgente o inusual (ej. transferir dinero), no respondas por el mismo canal. Llama por teléfono a un número conocido o usa otra app de mensajería para confirmar la legitimidad de la petición. Es el paso más seguro.</li>
+                                <li><strong>Análisis Forense Básico:</strong> Aprende a inspeccionar los detalles. En correos, pasa el cursor sobre los enlaces para ver la URL real antes de hacer clic. En videos, busca inconsistencias sutiles como falta de parpadeo, desenfoques extraños en los bordes de la cara o una sincronización labial imperfecta.</li>
+                                <li><strong>Configuración de "Palabra Segura":</strong> En entornos de equipo, establece una palabra clave o una pregunta personal que solo los interlocutores reales conocerían. Es una forma simple y efectiva de verificar la identidad en una llamada de voz o video sospechosa.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Actitudes -->
+                    <div>
+                        <button class="accordion-toggle w-full flex justify-between items-center text-left p-4 bg-white rounded-lg shadow font-semibold text-lg text-emerald-900 hover:bg-emerald-50 transition">
+                            <span>🧠 Actitudes (Saber Ser)</span>
+                             <span class="transform transition-transform duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content bg-white px-4 pb-4 rounded-b-lg shadow-inner">
+                             <ul class="list-disc list-inside space-y-3 text-slate-700 pt-4">
+                                <li><strong>Escepticismo Saludable (Mentalidad de "Confianza Cero"):</strong> No confíes implícitamente en ninguna comunicación digital no solicitada, sin importar cuán legítima parezca. Asume una postura de verificación por defecto. La pregunta no es "¿es esto legítimo?", sino "¿cómo puedo probar que esto es legítimo?".</li>
+                                <li><strong>Resistencia a la Urgencia:</strong> Los atacantes manipulan las emociones creando un falso sentido de urgencia o pánico. La actitud defensiva clave es la pausa. Detente, respira y analiza la situación lógicamente antes de actuar. Ninguna solicitud legítima requiere una acción impulsiva que viole los protocolos de seguridad.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Competencias -->
+                    <div>
+                        <button class="accordion-toggle w-full flex justify-between items-center text-left p-4 bg-white rounded-lg shadow font-semibold text-lg text-emerald-900 hover:bg-emerald-50 transition">
+                            <span>🛡️ Competencias (Saber Integrar)</span>
+                             <span class="transform transition-transform duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content bg-white px-4 pb-4 rounded-b-lg shadow-inner">
+                             <ul class="list-disc list-inside space-y-3 text-slate-700 pt-4">
+                                <li><strong>Alfabetización Digital Crítica:</strong> Va más allá de saber usar la tecnología. Implica comprender sus mecanismos de funcionamiento y su potencial para la manipulación. Es la capacidad de evaluar críticamente la información y su procedencia en el contexto de un ecosistema digital propenso a la falsificación.</li>
+                                <li><strong>Gestión de tu Huella Digital:</strong> Sé consciente de qué información sobre ti está disponible públicamente. Cuantos más datos personales, profesionales y de voz compartas, más material proporcionas a los atacantes para construir un ataque personalizado en tu contra. Configura la privacidad de tus perfiles y sé selectivo con lo que publicas.</li>
+                                <li><strong>Protocolo de Respuesta a Incidentes:</strong> Saber qué hacer si sospechas que has sido comprometido es tan importante como la prevención. Esto incluye cambiar inmediatamente las contraseñas, notificar al departamento de TI de tu empresa, informar a tus bancos y alertar a tus contactos sobre la posible suplantación.</li>
+                            </ul>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const sections = document.querySelectorAll('.content-section');
+
+            function showSection(tabId) {
+                sections.forEach(section => {
+                    if (section.id === tabId) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+
+                tabs.forEach(tab => {
+                    if (tab.dataset.tab === tabId) {
+                        tab.classList.add('tab-active');
+                    } else {
+                        tab.classList.remove('tab-active');
+                    }
+                });
+            }
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    showSection(tab.dataset.tab);
+                });
+            });
+
+            showSection('inicio');
+
+            const phishingToggle = document.getElementById('phishing-toggle');
+            const phishingClasico = document.getElementById('phishing-clasico');
+            const phishingIA = document.getElementById('phishing-ia');
+            const labelClasico = document.getElementById('phishing-label-clasico');
+            const labelIA = document.getElementById('phishing-label-ia');
+
+            phishingToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    phishingClasico.classList.add('hidden');
+                    phishingIA.classList.remove('hidden');
+                    labelIA.classList.remove('text-slate-500');
+                    labelIA.classList.add('text-blue-700');
+                    labelClasico.classList.add('text-slate-500');
+                    labelClasico.classList.remove('text-blue-700');
+                } else {
+                    phishingClasico.classList.remove('hidden');
+                    phishingIA.classList.add('hidden');
+                    labelClasico.classList.remove('text-slate-500');
+                    labelClasico.classList.add('text-blue-700');
+                    labelIA.classList.add('text-slate-500');
+                    labelIA.classList.remove('text-blue-700');
+                }
+            });
+
+            const accordionToggles = document.querySelectorAll('.accordion-toggle');
+            accordionToggles.forEach(toggle => {
+                toggle.addEventListener('click', () => {
+                    const content = toggle.nextElementSibling;
+                    const icon = toggle.querySelector('span:last-child');
+                    
+                    const isOpen = content.classList.contains('open');
+                    
+                    document.querySelectorAll('.accordion-content.open').forEach(openContent => {
+                        if (openContent !== content) {
+                           openContent.classList.remove('open');
+                           openContent.previousElementSibling.querySelector('span:last-child').style.transform = 'rotate(0deg)';
+                        }
+                    });
+
+                    if(!isOpen) {
+                        content.classList.add('open');
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        content.classList.remove('open');
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
