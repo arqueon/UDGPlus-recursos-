@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secretaría de Educación de Nuevo León | Desarrollo Docente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff8300', // 70% base
+                        secondary: '#00c3b3', // 30% accent
+                        neutral: '#f3f4f6',
+                        dark: '#1f2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            scroll-behavior: smooth;
+        }
+        .hero-pattern {
+            background-color: #ff8300;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .section-divider {
+            height: 4px;
+            background: linear-gradient(90deg, #ff8300 70%, #00c3b3 30%);
+        }
+    </style>
+</head>
+<body class="font-sans text-gray-700 antialiased">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-24">
+                <div class="flex items-center">
+                    <!-- Logos e Identidad -->
+                    <div class="flex-shrink-0 flex items-center gap-4">
+                        <!-- Logo NL (Escudo) -->
+                        <img src="path111.png" alt="Nuevo León" class="h-14 w-auto object-contain">
+                        
+                        <!-- Separador vertical sutil -->
+                        <div class="h-10 w-px bg-gray-200 hidden sm:block"></div>
+                        
+                        <!-- Logo Educación -->
+                        <img src="path1.png" alt="Educación" class="h-10 w-auto object-contain">
+
+                        <!-- Texto de la Secretaría -->
+                        <span class="hidden lg:block font-bold text-sm tracking-tight text-gray-800 leading-tight ml-2 border-l-2 border-gray-200 pl-4">
+                            Secretaría de Educación <br><span class="text-secondary">de Nuevo León</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#inicio" class="text-gray-600 hover:text-primary font-medium transition">Inicio</a>
+                    <a href="#nosotros" class="text-gray-600 hover:text-primary font-medium transition">Objetivos</a>
+                    <a href="#oferta" class="text-gray-600 hover:text-primary font-medium transition">Cursos</a>
+                    <a href="#contacto" class="bg-secondary text-white px-5 py-2 rounded-full font-medium hover:bg-teal-600 transition shadow-lg hover:shadow-xl">
+                        Ingresar a plataforma
+                    </a>
+                </div>
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMenu()" class="text-gray-600 hover:text-primary focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#inicio" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Inicio</a>
+                <a href="#nosotros" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Objetivos</a>
+                <a href="#oferta" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50">Cursos</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative hero-pattern pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h1 class="text-4xl tracking-tight font-extrabold text-white sm:text-5xl md:text-6xl mb-6">
+                Herramientas y recursos para el <br class="hidden md:block" />
+                <span class="text-white border-b-4 border-secondary pb-2">desarrollo docente</span> en Nuevo León
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-xl text-orange-50 mb-8">
+                Fortaleciendo el futuro de nuestros jóvenes mediante la innovación docente.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#oferta" class="w-full sm:w-auto flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-gray-100 md:py-4 md:text-lg md:px-10 shadow-xl transition">
+                    Ver Oferta Educativa
+                </a>
+                <a href="#nosotros" class="w-full sm:w-auto flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-md text-white hover:bg-white hover:bg-opacity-10 md:py-4 md:text-lg md:px-10 transition">
+                    Saber más
+                </a>
+            </div>
+        </div>
+        <!-- Decorative wave -->
+        <div class="absolute bottom-0 w-full">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <path fill="#ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- About / The Why Section -->
+    <section id="nosotros" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+                <div class="mb-12 lg:mb-0">
+                    <div class="inline-block bg-secondary bg-opacity-10 rounded-full px-4 py-1 mb-4">
+                        <span class="text-secondary font-semibold tracking-wide uppercase text-sm">Nuestra Misión</span>
+                    </div>
+                    <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl mb-6">
+                        ¿Por qué es fundamental <span class="text-primary">apoyar a nuestros docentes?</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        La educación ha sido transformada por completo. Hoy más que nunca, necesitamos docentes equipados no solo con un profundo conocimiento de su materia, sino también con <strong>metodologías innovadoras</strong> y la capacidad de crear ambientes seguros.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                        Sabemos que la calidad de la retroalimentación de un profesor a sus alumnos es una de las variables de mayor impacto en el aprendizaje. Este proyecto impulsado por la <strong>Secretaría de Educación de Nuevo León</strong> busca fortalecer las herramientas pedagógicas, disciplinares y socioemocionales.
+                    </p>
+                    
+                    <ul class="space-y-4 mt-8">
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-md bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <p class="ml-4 text-lg text-gray-600">Formación continua, práctica y relevante.</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-md bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <p class="ml-4 text-lg text-gray-600">Espacios para reflexionar y colaborar.</p>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-md bg-primary text-white">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                            </div>
+                            <p class="ml-4 text-lg text-gray-600">Materiales y recursos para innovar las prácticas docentes</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="relative">
+                    <div class="absolute -top-4 -left-4 w-24 h-24 bg-secondary opacity-20 rounded-full blur-xl"></div>
+                    <div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary opacity-20 rounded-full blur-xl"></div>
+                    <!-- SVG Diagram Container -->
+                    <div class="relative rounded-2xl shadow-2xl border-b-8 border-secondary bg-white overflow-hidden p-6 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 640" class="w-full h-auto max-w-md mx-auto">
+                          <style>
+                            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap');
+                            .text-main { font-family: 'Inter', sans-serif; fill: white; text-anchor: middle; font-weight: 700; font-size: 18px; }
+                            .text-cat { font-family: 'Inter', sans-serif; fill: #374151; text-anchor: start; font-weight: 600; font-size: 16px; }
+                            .text-sub { font-family: 'Inter', sans-serif; fill: #6b7280; text-anchor: start; font-weight: 400; font-size: 12px; }
+                            .line { fill: none; stroke: #e5e7eb; stroke-width: 4; stroke-linecap: round; }
+                          </style>
+                          
+                          <defs>
+                            <linearGradient id="grad-orange-v" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" style="stop-color:#ff8300;stop-opacity:1" />
+                              <stop offset="100%" style="stop-color:#ff9f33;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="grad-teal-v" x1="0%" y1="0%" x2="0%" y2="100%">
+                              <stop offset="0%" style="stop-color:#00c3b3;stop-opacity:1" />
+                              <stop offset="100%" style="stop-color:#2dd4c4;stop-opacity:1" />
+                            </linearGradient>
+                          </defs>
+
+                          <!-- Background -->
+                          <!-- <rect width="500" height="640" fill="#ffffff"/> -->
+
+                          <!-- Main Spine Connector -->
+                          <!-- Starts from header center, curves left, goes down -->
+                          <path d="M250,70 C250,100 80,100 80,130 L80,580" class="line" stroke="#e5e7eb"/>
+
+                          <!-- Header Node -->
+                          <rect x="130" y="20" width="240" height="50" rx="25" fill="url(#grad-orange-v)" filter="drop-shadow(0px 4px 10px rgba(255,131,0,0.3))"/>
+                          <text x="250" y="52" class="text-main">Estrategia Integral</text>
+
+                          <!-- ROW 1: Ciencias (Teal) y=150 -->
+                          <g transform="translate(0, 150)">
+                            <!-- Connector Dot on Spine -->
+                            <circle cx="80" cy="0" r="6" fill="#e5e7eb"/>
+                            <!-- Icon Circle -->
+                            <circle cx="80" cy="0" r="36" fill="url(#grad-teal-v)" />
+                            <!-- Icon -->
+                            <g transform="translate(80,0) scale(0.8)">
+                                <path d="M-12,0 A12,4 0 0,0 12,0 A12,4 0 0,0 -12,0 M0,-12 A4,12 0 0,0 0,12 A4,12 0 0,0 0,-12" stroke="white" stroke-width="3" fill="none" transform="rotate(45)"/>
+                                <circle r="3" fill="white"/>
+                            </g>
+                            <!-- Text -->
+                            <text x="140" y="5" class="text-cat">Ciencias y Tecnología</text>
+                            <text x="140" y="24" class="text-sub">Innovación y pensamiento lógico</text>
+                          </g>
+
+                          <!-- ROW 2: Comunicación (Orange) y=250 -->
+                          <g transform="translate(0, 250)">
+                            <circle cx="80" cy="0" r="6" fill="#e5e7eb"/>
+                            <circle cx="80" cy="0" r="36" fill="url(#grad-orange-v)" />
+                            <!-- Icon -->
+                            <g transform="translate(80,0) scale(0.8)">
+                                <path d="M-10,-8 H10 A4,4 0 0,1 14,-4 V4 A4,4 0 0,1 10,8 H-2 L-8,14 V8 H-10 A4,4 0 0,1 -14,4 V-4 A4,4 0 0,1 -10,-8 Z" fill="none" stroke="white" stroke-width="3"/>
+                                <line x1="-6" y1="0" x2="6" y2="0" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            </g>
+                            <text x="140" y="5" class="text-cat">Competencias Comunicativas</text>
+                            <text x="140" y="24" class="text-sub">Lectoescritura y expresión efectiva</text>
+                          </g>
+
+                          <!-- ROW 3: Socioemocional (Teal) y=350 -->
+                          <g transform="translate(0, 350)">
+                            <circle cx="80" cy="0" r="6" fill="#e5e7eb"/>
+                            <circle cx="80" cy="0" r="36" fill="url(#grad-teal-v)" filter="drop-shadow(0 4px 6px rgba(0,195,179,0.2))"/>
+                            <!-- Icon -->
+                            <g transform="translate(80,0) scale(0.8)">
+                                <path d="M0,4 L-8,-6 C-12,-10 -18,-4 -10,4 L0,14 L10,4 C18,-4 12,-10 8,-6 Z" fill="white"/>
+                            </g>
+                            <text x="140" y="5" class="text-cat" style="fill:#00c3b3">Desarrollo Socioemocional</text>
+                            <text x="140" y="24" class="text-sub">Habilidades blandas y bienestar</text>
+                          </g>
+
+                          <!-- ROW 4: Docencia (Orange) y=450 -->
+                          <g transform="translate(0, 450)">
+                            <circle cx="80" cy="0" r="6" fill="#e5e7eb"/>
+                            <circle cx="80" cy="0" r="36" fill="url(#grad-orange-v)" />
+                            <!-- Icon -->
+                            <g transform="translate(80,0) scale(0.8)">
+                                <rect x="-10" y="-12" width="20" height="24" rx="2" stroke="white" stroke-width="3" fill="none"/>
+                                <line x1="-5" y1="-6" x2="5" y2="-6" stroke="white" stroke-width="2"/>
+                                <line x1="-5" y1="0" x2="5" y2="0" stroke="white" stroke-width="2"/>
+                                <line x1="-5" y1="6" x2="2" y2="6" stroke="white" stroke-width="2"/>
+                            </g>
+                            <text x="140" y="5" class="text-cat">Formación Docente</text>
+                            <text x="140" y="24" class="text-sub">Evaluación y metodologías activas</text>
+                          </g>
+
+                          <!-- ROW 5: Seguridad (Teal) y=550 -->
+                          <g transform="translate(0, 550)">
+                            <circle cx="80" cy="0" r="6" fill="#e5e7eb"/>
+                            <circle cx="80" cy="0" r="36" fill="url(#grad-teal-v)" />
+                            <!-- Icon -->
+                            <g transform="translate(80,0) scale(0.8)">
+                                <path d="M-10,-10 H10 V0 C10,8 0,14 0,14 C0,14 -10,8 -10,0 Z" fill="none" stroke="white" stroke-width="3" transform="translate(0, 2)"/>
+                            </g>
+                            <text x="140" y="5" class="text-cat">Seguridad y Normatividad</text>
+                            <text x="140" y="24" class="text-sub">Ambientes seguros y prevención</text>
+                          </g>
+
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses / Strategy Section -->
+    <section id="oferta" class="py-20 bg-neutral">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-base text-secondary font-bold tracking-wide uppercase">Estrategia Integral</h2>
+                <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                    Materiales de apoyo y recursos
+                </p>
+                <p class="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    Hemos diseñado una estrategia con elementos que se complementan para cubrir una buena parte de las áreas del desarrollo docente.
+                </p>
+            </div>
+
+            <div class="space-y-12">
+
+                <!-- Category 1: Ciencias -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="bg-primary p-3 rounded-lg text-white mr-4 shadow-lg">
+                            <i class="fas fa-atom text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Ciencias Exactas y Tecnología</h3>
+                    </div>
+                    <p class="text-gray-600 mb-6 ml-14">Asignaturas orientadas a las ciencias duras e innovación tecnológica.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ml-0 md:ml-14">
+                        <!-- Card -->
+                        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-secondary card-hover">
+                            <h4 class="font-bold text-lg text-gray-900">Física</h4>
+                            <span class="text-xs font-semibold text-secondary bg-teal-50 px-2 py-1 rounded mt-2 inline-block">Ciencia</span>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-secondary card-hover">
+                            <h4 class="font-bold text-lg text-gray-900">Diplomado Matemáticas</h4>
+                            <span class="text-xs font-semibold text-secondary bg-teal-50 px-2 py-1 rounded mt-2 inline-block">Lógica</span>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-secondary card-hover">
+                            <h4 class="font-bold text-lg text-gray-900">Inteligencia Artificial</h4>
+                            <span class="text-xs font-semibold text-secondary bg-teal-50 px-2 py-1 rounded mt-2 inline-block">Innovación</span>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-secondary card-hover">
+                            <h4 class="font-bold text-lg text-gray-900">Hackaton</h4>
+                            <span class="text-xs font-semibold text-secondary bg-teal-50 px-2 py-1 rounded mt-2 inline-block">Práctica</span>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- Category 2: Comunicación -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="bg-secondary p-3 rounded-lg text-white mr-4 shadow-lg">
+                            <i class="fas fa-pen-nib text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Competencias Comunicativas</h3>
+                    </div>
+                    <p class="text-gray-600 mb-6 ml-14">Fortalecimiento de la lectoescritura y transmisión efectiva.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 ml-0 md:ml-14">
+                        <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-primary card-hover">
+                            <h4 class="font-bold text-lg text-gray-900">Escritura</h4>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-primary card-hover">
+                            <h4 class="font-bold text-lg text-gray-900">Habilidades Lectoras</h4>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 border-t-4 border-primary card-hover">
+                            <h4 class="font-bold text-lg text-gray-900">Comunicación</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- Category 3: Socioemocional -->
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="bg-primary p-3 rounded-lg text-white mr-4 shadow-lg">
+                            <i class="fas fa-heart text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Desarrollo Socioemocional</h3>
+                    </div>
+                    <p class="text-gray-600 mb-6 ml-14">Habilidades blandas, inteligencia emocional y vida profesional.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ml-0 md:ml-14">
+                        <div class="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden card-hover group">
+                            <div class="absolute right-0 top-0 w-16 h-16 bg-orange-100 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-orange-200"></div>
+                            <h4 class="font-bold text-lg text-gray-900 relative z-10">Habilidades Sociales</h4>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden card-hover group">
+                            <div class="absolute right-0 top-0 w-16 h-16 bg-orange-100 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-orange-200"></div>
+                            <h4 class="font-bold text-lg text-gray-900 relative z-10">Ruler (Socioemocional)</h4>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden card-hover group">
+                            <div class="absolute right-0 top-0 w-16 h-16 bg-orange-100 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-orange-200"></div>
+                            <h4 class="font-bold text-lg text-gray-900 relative z-10">Habilidades Empleabilidad</h4>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-sm p-6 relative overflow-hidden card-hover group">
+                            <div class="absolute right-0 top-0 w-16 h-16 bg-orange-100 rounded-bl-full -mr-8 -mt-8 transition-all group-hover:bg-orange-200"></div>
+                            <h4 class="font-bold text-lg text-gray-900 relative z-10">Mejora de Aprendizajes</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="border-gray-200">
+
+                <!-- Category 4 & 5 Split -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Cat 4 -->
+                    <div>
+                        <div class="flex items-center mb-6">
+                            <div class="bg-secondary p-3 rounded-lg text-white mr-4 shadow-lg">
+                            <i class="fas fa-chalkboard-teacher text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Formación Docente</h3>
+                        </div>
+                        <div class="space-y-4 ml-0 md:ml-14">
+                            <div class="flex items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary">
+                                <i class="fas fa-clipboard-check text-primary mr-3"></i>
+                                <span class="font-semibold text-gray-800">Evaluación</span>
+                            </div>
+                            <div class="flex items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary">
+                                <i class="fas fa-brain text-primary mr-3"></i>
+                                <span class="font-semibold text-gray-800">Metodologías Activas</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cat 5 -->
+                    <div>
+                        <div class="flex items-center mb-6">
+                            <div class="bg-secondary p-3 rounded-lg text-white mr-4 shadow-lg">
+                                <i class="fas fa-shield-alt text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-800">Seguridad y Normatividad</h3>
+                        </div>
+                        <div class="space-y-4 ml-0 md:ml-14">
+                            <div class="flex items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary">
+                                <i class="fas fa-hard-hat text-primary mr-3"></i>
+                                <span class="font-semibold text-gray-800">Seguridad Industrial</span>
+                            </div>
+                            <div class="flex items-center bg-white p-4 rounded-lg shadow-sm border-l-4 border-primary">
+                                <i class="fas fa-user-shield text-primary mr-3"></i>
+                                <span class="font-semibold text-gray-800">Ambientes Seguros</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-secondary relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between relative z-10">
+            <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                <span class="block">Dirigido a docentes de nivel Medio Superior y Superior.</span>
+                <span class="block text-teal-50 opacity-90 text-2xl mt-2 font-normal">Impactando la calidad educativa de miles de jóvenes.</span>
+            </h2>
+            <div class="mt-8 flex lg:mt-0 lg:flex-shrink-0">
+                <div class="inline-flex rounded-md shadow">
+                    <a href="#" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-primary bg-white hover:bg-gray-50 transition">
+                        Registrarme
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+            <div class="md:flex md:justify-between">
+                <div class="mb-8 md:mb-0">
+                    <span class="font-bold text-xl tracking-tight text-white">Secretaría de Educación <span class="text-secondary">de Nuevo León</span></span>
+                    <p class="mt-2 text-gray-400 text-sm max-w-xs">
+                        Subsecretaría de Educación Media Superior y Superior de Nuevo León.
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Plataforma</h3>
+                        <ul class="mt-4 space-y-4">
+                            <li><a href="#" class="text-base text-gray-300 hover:text-white">Cursos</a></li>
+                            <li><a href="#" class="text-base text-gray-300 hover:text-white">Instructores</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-400 tracking-wider uppercase">Soporte</h3>
+                        <ul class="mt-4 space-y-4">
+                            <li><a href="#" class="text-base text-gray-300 hover:text-white">Ayuda</a></li>
+                            <li><a href="#" class="text-base text-gray-300 hover:text-white">Contacto</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 border-t border-gray-700 pt-8 text-center">
+                <p class="text-base text-gray-400">
+                    &copy; 2023 Secretaría de Educación de Nuevo León. Todos los derechos reservados.
+                </p>
+            </div>
+        </div>
+        <!-- Colorful bottom bar -->
+        <div class="section-divider"></div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+            } else {
+                menu.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
